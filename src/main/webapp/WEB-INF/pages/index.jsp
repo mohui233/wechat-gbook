@@ -11,7 +11,7 @@
 	<meta content="black" name="apple-mobile-web-app-status-bar-style" />
 	<meta content="telephone=no" name="format-detection" />
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css" />
-    <c:import url="/WEB-INF/pages/include/inc.jsp"/>
+    <%-- <c:import url="/WEB-INF/pages/include/inc.jsp"/> --%>
 </head>
 <body class="main-page">
 	<div class="head">
