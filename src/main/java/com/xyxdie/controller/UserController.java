@@ -309,7 +309,7 @@ public class UserController {
                                     @RequestParam("file") MultipartFile file, Model model) {
         User user = (User) session.getAttribute("user");
         // 上传目录
-        String rootPath = "";
+        String rootPath =   request.getSession().getServletContext().getRealPath(IMGURL);   
         System.out.println(rootPath);
         uploadImg.uploadimg(file, user, rootPath);
         model.addAttribute("user", user);
