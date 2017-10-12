@@ -112,6 +112,29 @@ public class UserController {
         List<MessageJsonBean> list = messageService.findMessageByPage(page, PAGENUM);
         return list;
     }
+    
+    /**
+     * 详细信息
+     * @param session
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = {"/detail"}, method = {RequestMethod.GET, RequestMethod.HEAD})
+    public String detail(Model model){
+        return "include/detail";
+    }
+    
+    /**
+     * 我的消息
+     * @param session
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = {"/mynews"}, method = {RequestMethod.GET, RequestMethod.HEAD})
+    public String mynews(Model model){
+        return "include/mynews";
+    }
+    
 
     /**
      * 用户首页
