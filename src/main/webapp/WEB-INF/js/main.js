@@ -105,7 +105,6 @@ $(window).ready(function() {
 				console.log(data)
 			}
 		})
-
 		/*分页信息*/
 		var totalPage = Math.ceil(totalCount / 3);
 
