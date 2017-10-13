@@ -106,8 +106,10 @@ $(window).ready(function() {
 			}
 		})
 
+		console.log(totalCount);
+		console.log(pageCount);
 		/*分页信息*/
-		var totalPage = totalPage;
+		var totalPage = pageCount;
 
 		var pageIndex = location.hash.replace('#page=', '');
 		pageIndex = pageIndex ? pageIndex : 1;
