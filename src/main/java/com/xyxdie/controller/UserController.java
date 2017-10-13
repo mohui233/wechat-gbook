@@ -81,14 +81,19 @@ public class UserController {
 	 * @param model
 	 */
 	@RequestMapping("messageList")
-	public void list(String pageIndex, HttpServletRequest request,HttpServletResponse response)throws IOException, Exception {
+	public void list(String pageIndex, HttpServletRequest request, HttpServletResponse response)throws IOException, Exception {
 		AbstractBaseResp baseResp = new AbstractBaseResp();
+		Long totalCount = messageService.findMessageCount();
+		//计算出页数并返回给前台
+		Integer totalPage = (int)( Math.ceil(totalCount / FPAGENUM) );
 		Integer page = 1;
 		if(pageIndex != null && (pageIndex.length()) != 0){
 			page= Integer.valueOf(pageIndex);
 		}
 		List<MessageJsonBean> list = messageService.findMessageByPage(page, PAGENUM);
 		baseResp.setObject(list);
+		baseResp.setTotalCount(totalCount);
+		baseResp.setTotalPage(totalPage);
 		Gson gson = new Gson();
 		JSONObject json = new JSONObject();
 		String baseRespToJson = gson.toJson(baseResp);
@@ -118,32 +123,19 @@ public class UserController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = {"/", "/index"}, method = {RequestMethod.POST})
-	public String index(@Valid Message message,BindingResult result, Model model,
-			HttpSession session, HttpServletRequest request,
+	public String index(@Valid Message message, HttpSession session, HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
-		List<MessageJsonBean> list = messageService.findAllMessage();
-		model.addAttribute("messages", list);
-		//计算出页数并返回给前台
-		model.addAttribute("pageCount", (int)( Math.ceil(messageService.findMessageCount() / FPAGENUM) ));
-		//信息正确则将留言信息set给message对象，调用messageService保存留言
 		User sessionUser = (User) session.getAttribute("user");
 		if(sessionUser != null) {
 			message.setUserid(sessionUser.getId());
-		}
-		message.setDate(messageService.getDate());
-		message.setIp(request.getRemoteAddr());
-		String content = request.getParameter("content");
-		if(content != null && (content.length()) != 0){
-			message.setMessage(content);
-			//验证留言信息是否正确
-			validate.messageValidate(message, result);
-			if(result.hasErrors()){
-				return "index";
+			String content = request.getParameter("content");
+			if(content != null && (content.length()) != 0){
+				message.setMessage(content);
+				message.setDate(messageService.getDate());
+				message.setIp(request.getRemoteAddr());
+				messageService.saveMessage(message);
 			}
-			messageService.saveMessage(message);
 		}
-		model.addAttribute("ifLogin", true);
-
 		return "index";
 	}
 
