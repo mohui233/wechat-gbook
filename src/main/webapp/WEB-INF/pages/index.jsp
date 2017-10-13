@@ -42,7 +42,7 @@
 
 		<div id="pages" class="pages">
 			<button class="prev">上一页</button>
-			<span class="page-number"><span class="curr">1</span> / <span class="total-page">1</span></span>
+			<span class="page-number"><span class="curr">1</span> <span class="total-page">1</span></span>
 			<button class="next">下一页</button>
 		</div>
 	</div>
@@ -61,29 +61,17 @@
 
 	<div class="edit-view" id="edit-view">
 		<div class="panel">
+		 <a href="${pageContext.request.contextPath}/user/login">登录</a>
 		<form:form modelAttribute="message" method="post" role="form">
 			<textarea name="content" class="message"></textarea>
 			<span class="placeholder">发布新内容</span>
 			<button class="btn cancel-btn">取消</button>
 			<button class="btn submit-btn">发布</button>
-            <c:if test="${ifLogin==false}">
-                <div class="col-sm-offset-6">您还未登录，请先
-                    <a href="${pageContext.request.contextPath}/user/login">登录</a>
-                    		或
-                    <a href="${pageContext.request.contextPath}/user/register">注册</a>
-                </div>
-             </c:if>
 		 </form:form>		
 		</div>
 	</div>
 
 	<div class="loadjs">
-		<script>
-			// 总页数
-			var pageCount = ${pageCount};
-			// 留言总数
-			var totalCount = ${totalCount};
-		</script>
 		<script src="${pageContext.request.contextPath}/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="${pageContext.request.contextPath}/js/dot.js" type="text/javascript" charset="utf-8"></script>
 		<script src="${pageContext.request.contextPath}/js/main.js" type="text/javascript" charset="utf-8"></script>
