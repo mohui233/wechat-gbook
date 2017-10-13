@@ -67,6 +67,7 @@ $(window).ready(function() {
 
 	/*加载分页数据*/
 	if($('#list').length > 0) {
+		console.info("");
 		var data = {
 			totalCount: 30,
 			list: [{
