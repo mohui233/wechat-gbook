@@ -23,7 +23,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -82,9 +81,13 @@ public class UserController {
 	 * @param model
 	 */
 	@RequestMapping("messageList")
-	public void list(HttpServletRequest request,HttpServletResponse response)throws IOException, Exception {
+	public void list(String pageIndex, HttpServletRequest request,HttpServletResponse response)throws IOException, Exception {
 		AbstractBaseResp baseResp = new AbstractBaseResp();
-		List<MessageJsonBean> list = messageService.findAllMessage();
+		Integer page = 1;
+		if(pageIndex != null && (pageIndex.length()) != 0){
+			page= Integer.valueOf(pageIndex);
+		}
+		List<MessageJsonBean> list = messageService.findMessageByPage(page, PAGENUM);
 		baseResp.setObject(list);
 		Gson gson = new Gson();
 		JSONObject json = new JSONObject();
