@@ -65,118 +65,125 @@ $(window).ready(function() {
 	});
 	/*提交*/
 
+	var list = [];
+	var data = {};
+	var load_data = function(data) {
+		$.ajax({
+			type: "post",
+			dataType: "json",
+			async: true,
+			url: "messageList",
+			data: data,
+			success: function(data) {
+				list = [];
+				var answer = '管理员：请等待我的回复';
+				for (var i = 0; i < data.object.length; i++) {
+					var a = data.object[i];
+					var item = {
+							id: 1,
+							name: a.name,
+							date: a.date,
+							img: 'upload/' + a.imgUrl,
+							question: a.message,
+							answer: answer
+					};
+					list.push(item)
+				}
+				var data = {
+					totalCount: totalCount,
+					list: list
+				}
+				//加载数据
+				var temp = doT.template($("#list-content").text());
+				$("#list .item").remove();
+				$("#list").prepend(temp(data.list));
+				//进入详情
+				$('.list .item .content').click(function() {
+					var id = $(this).parents('.item').attr('data-id');
+					window.open('detail.html?id=' + id, '_self');
+				});
+			},
+			error: function(data) {
+				console.log(data)
+			}
+		})
+	}
+
+	// 分页信息
+	var totalPage = "";
+	if(typeof(pageCount) != "undefined"){
+		totalPage = pageCount;
+	}
+
+	var pageIndex = location.hash.replace('#page=', '');
+	pageIndex = pageIndex ? pageIndex : 1;
+
+	if(pageIndex == 1) {
+		$('.prev').addClass('disable');
+	}
+
+	if(pageIndex == totalPage) {
+		$('.next').addClass('disable');
+	}
+
+	$('.pages .curr').text(pageIndex);
+	$('.pages .total-page').text(totalPage);
+	
+	data = {
+		pageIndex :	pageIndex
+	};
+	
 	/*加载分页数据*/
 	if($('#list').length > 0) {
-		// 分页信息
-		var totalPage = pageCount;
-
-		var pageIndex = location.hash.replace('#page=', '');
-		pageIndex = pageIndex ? pageIndex : 1;
-
-		if(pageIndex == 1) {
-			$('.prev').addClass('disable');
-		}
-
-		if(pageIndex == totalPage) {
-			$('.next').addClass('disable');
-		}
-
-		$('.pages .curr').text(pageIndex);
-		$('.pages .total-page').text(totalPage);
-		
-		var list = [];
-		var data = {
-			pageIndex :	pageIndex
-		};
-		var load_data = function(data) {
-			$.ajax({
-				type: "post",
-				dataType: "json",
-				async: true,
-				url: "messageList",
-				data: data,
-				success: function(data) {
-					list = [];
-					var answer = '管理员：请等待我的回复';
-					for (var i = 0; i < data.object.length; i++) {
-						var a = data.object[i];
-						var item = {
-								id: 1,
-								name: a.name,
-								date: a.date,
-								img: 'upload/' + a.imgUrl,
-								question: a.message,
-								answer: answer
-						};
-						list.push(item)
-					}
-					var data = {
-						totalCount: totalCount,
-						list: list
-					}
-					//加载数据
-					var temp = doT.template($("#list-content").text());
-					$("#list .item").remove();
-					$("#list").prepend(temp(data.list));
-					//进入详情
-					$('.list .item .content').click(function() {
-						var id = $(this).parents('.item').attr('data-id');
-						window.open('detail.html?id=' + id, '_self');
-					});
-				},
-				error: function(data) {
-					console.log(data)
-				}
-			})
-		}
 		load_data(data);
-		/*上一页*/
-		$('.prev').click(function() {
-			if(!$(this).hasClass('disable')) {
-				var pageIndex = location.hash.replace('#page=', '');
-
-				if(pageIndex > 1) {
-					location.hash = "#page=" + (--pageIndex);
-				}
-
-				if(pageIndex == 1) {
-					$(this).addClass('disable');
-				}
-
-				$('.pages .curr').text(pageIndex);
-				$('.next').removeClass('disable');
-				data = {
-						pageIndex :	pageIndex
-				};
-				load_data(data);
-			}
-		});
-		/*上一页*/
-
-		/*下一页*/
-		$('.next').click(function() {
-			if(!$(this).hasClass('disable')) {
-				var pageIndex = location.hash.replace('#page=', '');
-				pageIndex = pageIndex ? pageIndex : 1;
-
-				if(pageIndex < totalPage) {
-					location.hash = "#page=" + (++pageIndex);
-				}
-
-				if(pageIndex == totalPage) {
-					$(this).addClass('disable');
-				}
-
-				$('.pages .curr').text(pageIndex);
-				$('.prev').removeClass('disable');
-				data = {
-						pageIndex :	pageIndex
-				};
-				load_data(data);
-			}
-		});
-		/*下一页*/
 	}
+	
+	/*上一页*/
+	$('.prev').click(function() {
+		if(!$(this).hasClass('disable')) {
+			var pageIndex = location.hash.replace('#page=', '');
+
+			if(pageIndex > 1) {
+				location.hash = "#page=" + (--pageIndex);
+			}
+
+			if(pageIndex == 1) {
+				$(this).addClass('disable');
+			}
+
+			$('.pages .curr').text(pageIndex);
+			$('.next').removeClass('disable');
+			data = {
+					pageIndex :	pageIndex
+			};
+			load_data(data);
+		}
+	});
+	/*上一页*/
+
+	/*下一页*/
+	$('.next').click(function() {
+		if(!$(this).hasClass('disable')) {
+			var pageIndex = location.hash.replace('#page=', '');
+			pageIndex = pageIndex ? pageIndex : 1;
+
+			if(pageIndex < totalPage) {
+				location.hash = "#page=" + (++pageIndex);
+			}
+
+			if(pageIndex == totalPage) {
+				$(this).addClass('disable');
+			}
+
+			$('.pages .curr').text(pageIndex);
+			$('.prev').removeClass('disable');
+			data = {
+					pageIndex :	pageIndex
+			};
+			load_data(data);
+		}
+	});
+	/*下一页*/
 	/*加载分页数据*/
 
 
