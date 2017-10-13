@@ -129,47 +129,55 @@ $(window).ready(function() {
 			})
 		}
 		load_data(data);
+		/*上一页*/
+		$('.prev').click(function() {
+			if(!$(this).hasClass('disable')) {
+				var pageIndex = location.hash.replace('#page=', '');
+
+				if(pageIndex > 1) {
+					location.hash = "#page=" + (--pageIndex);
+				}
+
+				if(pageIndex == 1) {
+					$(this).addClass('disable');
+				}
+
+				$('.pages .curr').text(pageIndex);
+				$('.next').removeClass('disable');
+				data = {
+						pageIndex :	pageIndex
+				};
+				load_data(data);
+			}
+		});
+		/*上一页*/
+
+		/*下一页*/
+		$('.next').click(function() {
+			if(!$(this).hasClass('disable')) {
+				var pageIndex = location.hash.replace('#page=', '');
+				pageIndex = pageIndex ? pageIndex : 1;
+
+				if(pageIndex < totalPage) {
+					location.hash = "#page=" + (++pageIndex);
+				}
+
+				if(pageIndex == totalPage) {
+					$(this).addClass('disable');
+				}
+
+				$('.pages .curr').text(pageIndex);
+				$('.prev').removeClass('disable');
+				data = {
+						pageIndex :	pageIndex
+				};
+				load_data(data);
+			}
+		});
+		/*下一页*/
 	}
 	/*加载分页数据*/
 
-	/*上一页*/
-	$('.prev').click(function() {
-		if(!$(this).hasClass('disable')) {
-			var pageIndex = location.hash.replace('#page=', '');
-
-			if(pageIndex > 1) {
-				location.hash = "#page=" + (--pageIndex);
-			}
-
-			if(pageIndex == 1) {
-				$(this).addClass('disable');
-			}
-
-			$('.pages .curr').text(pageIndex);
-			$('.next').removeClass('disable');
-		}
-	});
-	/*上一页*/
-
-	/*下一页*/
-	$('.next').click(function() {
-		if(!$(this).hasClass('disable')) {
-			var pageIndex = location.hash.replace('#page=', '');
-			pageIndex = pageIndex ? pageIndex : 1;
-
-			if(pageIndex < totalPage) {
-				location.hash = "#page=" + (++pageIndex);
-			}
-
-			if(pageIndex == totalPage) {
-				$(this).addClass('disable');
-			}
-
-			$('.pages .curr').text(pageIndex);
-			$('.prev').removeClass('disable');
-		}
-	});
-	/*下一页*/
 
 	/*判断当前页*/
 
