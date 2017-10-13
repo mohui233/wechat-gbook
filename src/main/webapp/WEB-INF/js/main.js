@@ -67,37 +67,38 @@ $(window).ready(function() {
 
 	/*加载分页数据*/
 	if($('#list').length > 0) {
-		console.info("");
-		var data = {
-			totalCount: 30,
-			list: [{
-				id: 1,
-				name: 'MER 王',
-				date: '2017.08.09 12:00',
-				img: 'img/headpic.jpg',
-				question: '请问做一个官网的话你们的工期大概是多长时间？？？',
-				answer: '管理员：请等待我的回复'
-			}, {
-				id: 1,
-				name: 'MER 王',
-				date: '2017.08.09 12:00',
-				img: 'img/headpic.jpg',
-				question: '请问做一个官网的话你们的工期大概是多长时间？？？',
-				answer: '管理员：请等待我的回复'
-			}, {
-				id: 1,
-				name: 'MER 王',
-				date: '2017.08.09 12:00',
-				img: 'img/headpic.jpg',
-				question: '请问做一个官网的话你们的工期大概是多长时间？？？',
-				answer: '管理员：请等待我的回复'
-			}]
-		};
-
-		/*加载数据*/
-		var temp = doT.template($("#list-content").text());
-		$("#list").prepend(temp(data.list));
-		/*加载数据*/
+		var list = [];
+		$.ajax({
+			type: "post",
+			dataType: "json",
+			async: true,
+			url: "messageList",
+			success: function(data) {
+				list = [];
+				var answer = '管理员：请等待我的回复';
+				for (var i = 0; i < data.object.length; i++) {
+					var a = data.object[i];
+					var item = {
+							name: a.name,
+							date: a.date,
+							img: 'upload/' + a.imgUrl,
+							question: a.message,
+							answer: answer
+					};
+					list.push(item)
+				}
+				var data = {
+					totalCount: totalCount,
+					list: list
+				}
+				//加载数据
+				var temp = doT.template($("#list-content").text());
+				$("#list").prepend(temp(data.list));
+			},
+			error: function(data) {
+				console.log(data)
+			}
+		})
 
 		/*进入详情*/
 		$('.list .item .content').click(function() {
@@ -108,7 +109,7 @@ $(window).ready(function() {
 		/*进入详情*/
 
 		/*分页信息*/
-		var totalPage = Math.ceil(data.totalCount / 3);
+		var totalPage = Math.ceil(totalCount / 3);
 
 		var pageIndex = location.hash.replace('#page=', '');
 		pageIndex = pageIndex ? pageIndex : 1;
