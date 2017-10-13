@@ -129,12 +129,12 @@ public class UserController {
 		message.setIp(request.getRemoteAddr());
 		String content = request.getParameter("content");
 		if(content != null && (content.length()) != 0){
+			message.setMessage(content);
 			//验证留言信息是否正确
 			validate.messageValidate(message, result);
 			if(result.hasErrors()){
 				return "index";
 			}
-			message.setMessage(content);
 			messageService.saveMessage(message);
 		}
 		model.addAttribute("ifLogin", true);
