@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
 import java.util.List;
 
 @Controller
@@ -82,6 +83,10 @@ public class UserController {
     public String index(@Valid Message message,BindingResult result, Model model,
                         HttpSession session, HttpServletRequest request,
                         HttpServletResponse response) throws Exception{
+    	String content = request.getParameter("content");
+		if(content != null && (content.length()) != 0){
+			message.setMessage(content);
+		}
         //验证留言信息是否正确
         validate.messageValidate(message, result);
         if(result.hasErrors()){
@@ -93,7 +98,9 @@ public class UserController {
         model.addAttribute("pageCount", (int)( Math.ceil(messageService.findMessageCount() / FPAGENUM) ));
         //信息正确则将留言信息set给message对象，调用messageService保存留言
         User sessionUser = (User) session.getAttribute("user");
-        message.setUserid(sessionUser.getId());
+        if(sessionUser != null) {
+        	message.setUserid(sessionUser.getId());
+        }
         message.setDate(messageService.getDate());
         message.setIp(request.getRemoteAddr());
         messageService.saveMessage(message);
@@ -101,7 +108,8 @@ public class UserController {
         return "index";
     }
 
-    /**
+
+	/**
      * 根据页面返回对应的json数组
      * @param page 第几页
      * @return
