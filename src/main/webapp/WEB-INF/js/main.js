@@ -67,6 +67,8 @@ $(window).ready(function() {
 
 	var list = [];
 	var data = {};
+	var totalCount = "";
+	var totalPage = "";
 	var load_data = function(data) {
 		$.ajax({
 			type: "post",
@@ -75,6 +77,8 @@ $(window).ready(function() {
 			url: "messageList",
 			data: data,
 			success: function(data) {
+				totalCount = data.totalCount;
+				totalPage = data.totalPage;
 				list = [];
 				var answer = '管理员：请等待我的回复';
 				for (var i = 0; i < data.object.length; i++) {
@@ -107,12 +111,6 @@ $(window).ready(function() {
 				console.log(data)
 			}
 		})
-	}
-
-	// 分页信息
-	var totalPage = "";
-	if(typeof(pageCount) != "undefined"){
-		totalPage = pageCount;
 	}
 
 	var pageIndex = location.hash.replace('#page=', '');
