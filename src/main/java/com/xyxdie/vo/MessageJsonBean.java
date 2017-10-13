@@ -3,13 +3,15 @@ package com.xyxdie.vo;
 
 public class MessageJsonBean {
 
+	private int id;
     private String name;
     private String ip;
     private String date;
     private String message;
     private String imgUrl;
 
-    public MessageJsonBean(String name, String ip, String date, String message, String imgUrl) {
+    public MessageJsonBean(int id, String name, String ip, String date, String message, String imgUrl) {
+    	this.setId(id);
         this.name = name;
         this.ip = ip;
         this.date = date;
@@ -56,6 +58,14 @@ public class MessageJsonBean {
     public void setMessage(String message) {
         this.message = message;
     }
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 
 
