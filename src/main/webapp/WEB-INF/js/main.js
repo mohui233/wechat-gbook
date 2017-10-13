@@ -79,6 +79,7 @@ $(window).ready(function() {
 				for (var i = 0; i < data.object.length; i++) {
 					var a = data.object[i];
 					var item = {
+							id: 1,
 							name: a.name,
 							date: a.date,
 							img: 'upload/' + a.imgUrl,
@@ -94,19 +95,16 @@ $(window).ready(function() {
 				//加载数据
 				var temp = doT.template($("#list-content").text());
 				$("#list").prepend(temp(data.list));
+				//进入详情
+				$('.list .item .content').click(function() {
+					var id = $(this).parents('.item').attr('data-id');
+					window.open('detail.html?id=' + id, '_self');
+				});
 			},
 			error: function(data) {
 				console.log(data)
 			}
 		})
-
-		/*进入详情*/
-		$('.list .item .content').click(function() {
-			var id = $(this).parents('.item').attr('data-id');
-
-			window.open('detail.html?id=' + id, '_self');
-		});
-		/*进入详情*/
 
 		/*分页信息*/
 		var totalPage = Math.ceil(totalCount / 3);
