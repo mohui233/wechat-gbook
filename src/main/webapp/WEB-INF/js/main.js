@@ -85,46 +85,50 @@ $(window).ready(function() {
 		$('.pages .total-page').text(totalPage);
 		
 		var list = [];
-		$.ajax({
-			type: "post",
-			dataType: "json",
-			async: true,
-			url: "messageList",
-			data: {
-				pageIndex :	pageIndex
-			},
-			success: function(data) {
-				list = [];
-				var answer = '管理员：请等待我的回复';
-				for (var i = 0; i < data.object.length; i++) {
-					var a = data.object[i];
-					var item = {
-							id: 1,
-							name: a.name,
-							date: a.date,
-							img: 'upload/' + a.imgUrl,
-							question: a.message,
-							answer: answer
-					};
-					list.push(item)
+		var data = {
+			pageIndex :	pageIndex
+		};
+		var load_data = function(data) {
+			$.ajax({
+				type: "post",
+				dataType: "json",
+				async: true,
+				url: "messageList",
+				data: data,
+				success: function(data) {
+					list = [];
+					var answer = '管理员：请等待我的回复';
+					for (var i = 0; i < data.object.length; i++) {
+						var a = data.object[i];
+						var item = {
+								id: 1,
+								name: a.name,
+								date: a.date,
+								img: 'upload/' + a.imgUrl,
+								question: a.message,
+								answer: answer
+						};
+						list.push(item)
+					}
+					var data = {
+						totalCount: totalCount,
+						list: list
+					}
+					//加载数据
+					var temp = doT.template($("#list-content").text());
+					$("#list").prepend(temp(data.list));
+					//进入详情
+					$('.list .item .content').click(function() {
+						var id = $(this).parents('.item').attr('data-id');
+						window.open('detail.html?id=' + id, '_self');
+					});
+				},
+				error: function(data) {
+					console.log(data)
 				}
-				var data = {
-					totalCount: totalCount,
-					list: list
-				}
-				//加载数据
-				var temp = doT.template($("#list-content").text());
-				$("#list").prepend(temp(data.list));
-				//进入详情
-				$('.list .item .content').click(function() {
-					var id = $(this).parents('.item').attr('data-id');
-					window.open('detail.html?id=' + id, '_self');
-				});
-			},
-			error: function(data) {
-				console.log(data)
-			}
-		})
+			})
+		}
+		load_data(data);
 	}
 	/*加载分页数据*/
 
