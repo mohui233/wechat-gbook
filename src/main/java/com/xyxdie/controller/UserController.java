@@ -83,28 +83,29 @@ public class UserController {
 	public String index(@Valid Message message,BindingResult result, Model model,
 			HttpSession session, HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
+		List<MessageJsonBean> list = messageService.findAllMessage();
+		model.addAttribute("messages", list);
+		//计算出页数并返回给前台
+		model.addAttribute("pageCount", (int)( Math.ceil(messageService.findMessageCount() / FPAGENUM) ));
+		//信息正确则将留言信息set给message对象，调用messageService保存留言
+		User sessionUser = (User) session.getAttribute("user");
+		if(sessionUser != null) {
+			message.setUserid(sessionUser.getId());
+		}
+		message.setDate(messageService.getDate());
+		message.setIp(request.getRemoteAddr());
 		String content = request.getParameter("content");
 		if(content != null && (content.length()) != 0){
-			message.setMessage(content);
 			//验证留言信息是否正确
 			validate.messageValidate(message, result);
 			if(result.hasErrors()){
 				return "index";
 			}
-			List<MessageJsonBean> list = messageService.findAllMessage();
-			model.addAttribute("messages", list);
-			//计算出页数并返回给前台
-			model.addAttribute("pageCount", (int)( Math.ceil(messageService.findMessageCount() / FPAGENUM) ));
-			//信息正确则将留言信息set给message对象，调用messageService保存留言
-			User sessionUser = (User) session.getAttribute("user");
-			if(sessionUser != null) {
-				message.setUserid(sessionUser.getId());
-			}
-			message.setDate(messageService.getDate());
-			message.setIp(request.getRemoteAddr());
+			message.setMessage(content);
 			messageService.saveMessage(message);
-			model.addAttribute("ifLogin", true);
 		}
+		model.addAttribute("ifLogin", true);
+
 		return "index";
 	}
 
