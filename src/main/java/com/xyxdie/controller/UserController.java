@@ -59,10 +59,12 @@ public class UserController {
 	public String index(Model model, HttpSession session, HttpServletRequest request,
 			HttpServletResponse response){
 		List<MessageJsonBean> list = messageService.findAllMessage();
+		Long count = messageService.findMessageCount();
 		model.addAttribute("messages", list);
 		model.addAttribute("message", new Message());
 		//计算出页数并返回给前台
-		model.addAttribute("pageCount", (int)( Math.ceil(messageService.findMessageCount() / FPAGENUM) ));
+		model.addAttribute("totalPage", (int)( Math.ceil(count / FPAGENUM) ));
+		model.addAttribute("totalCount", count);
 		//获取session中的user
 		User sessionUser = (User)session.getAttribute("user");
 		//但session中存在user时，允许留言
