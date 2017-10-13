@@ -7,19 +7,25 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
 import com.xyxdie.model.Message;
 import com.xyxdie.model.User;
 import com.xyxdie.service.MessageService;
 import com.xyxdie.service.UserService;
+import com.xyxdie.util.AbstractBaseResp;
 import com.xyxdie.util.UploadImg;
 import com.xyxdie.util.Validate;
 import com.xyxdie.vo.MessageJsonBean;
+
+import net.sf.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 @Controller
@@ -50,8 +56,26 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = {"/", "index"}, method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String index(Model model, HttpSession session){
+	public String index(Model model, HttpSession session, HttpServletRequest request,
+			HttpServletResponse response){
+		AbstractBaseResp baseResp = new AbstractBaseResp();
 		List<MessageJsonBean> list = messageService.findAllMessage();
+		baseResp.setObject(list);
+		Gson gson = new Gson();
+		JSONObject json = new JSONObject();
+		String baseRespToJson = gson.toJson(baseResp);
+		/*发送到前台*/
+		response.setCharacterEncoding("utf-8");
+		PrintWriter writer;
+		try {
+			json.put("baseResp", baseRespToJson);
+			writer = response.getWriter();
+			writer.print(baseRespToJson);
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		model.addAttribute("messages", list);
 		model.addAttribute("message", new Message());
 		//计算出页数并返回给前台
