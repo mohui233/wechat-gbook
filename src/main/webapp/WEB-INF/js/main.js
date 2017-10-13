@@ -107,7 +107,7 @@ $(window).ready(function() {
 		})
 
 		/*分页信息*/
-		var totalPage = Math.ceil(totalCount / 3);
+		var totalPage = totalPage;
 
 		var pageIndex = location.hash.replace('#page=', '');
 		pageIndex = pageIndex ? pageIndex : 1;
