@@ -116,6 +116,7 @@ $(window).ready(function() {
 					}
 					//加载数据
 					var temp = doT.template($("#list-content").text());
+					$("#list .item").remove();
 					$("#list").prepend(temp(data.list));
 					//进入详情
 					$('.list .item .content').click(function() {
