@@ -80,7 +80,7 @@ $(window).ready(function() {
 				for (var i = 0; i < data.object.length; i++) {
 					var a = data.object[i];
 					var item = {
-							id: 1,
+							id: a.id,
 							name: a.name,
 							date: a.date,
 							img: 'upload/' + a.imgUrl,
