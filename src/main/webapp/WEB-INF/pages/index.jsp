@@ -80,9 +80,9 @@
 	<div class="loadjs">
 		<script>
 			// 总页数
-			var totalPage = ${totalPage};
-			// 留言总数
 			var pageCount = ${pageCount};
+			// 留言总数
+			var totalCount = ${totalCount};
 		</script>
 		<script src="${pageContext.request.contextPath}/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="${pageContext.request.contextPath}/js/dot.js" type="text/javascript" charset="utf-8"></script>
