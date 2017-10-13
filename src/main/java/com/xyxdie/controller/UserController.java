@@ -63,7 +63,7 @@ public class UserController {
 		model.addAttribute("messages", list);
 		model.addAttribute("message", new Message());
 		//计算出页数并返回给前台
-		model.addAttribute("totalPage", (int)( Math.ceil(count / FPAGENUM) ));
+		model.addAttribute("pageCount", (int)( Math.ceil(count / FPAGENUM) ));
 		model.addAttribute("totalCount", count);
 		//获取session中的user
 		User sessionUser = (User)session.getAttribute("user");
