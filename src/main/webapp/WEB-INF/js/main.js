@@ -67,12 +67,32 @@ $(window).ready(function() {
 
 	/*加载分页数据*/
 	if($('#list').length > 0) {
+		// 分页信息
+		var totalPage = pageCount;
+
+		var pageIndex = location.hash.replace('#page=', '');
+		pageIndex = pageIndex ? pageIndex : 1;
+
+		if(pageIndex == 1) {
+			$('.prev').addClass('disable');
+		}
+
+		if(pageIndex == totalPage) {
+			$('.next').addClass('disable');
+		}
+
+		$('.pages .curr').text(pageIndex);
+		$('.pages .total-page').text(totalPage);
+		
 		var list = [];
 		$.ajax({
 			type: "post",
 			dataType: "json",
 			async: true,
 			url: "messageList",
+			data: {
+				pageIndex :	pageIndex
+			},
 			success: function(data) {
 				list = [];
 				var answer = '管理员：请等待我的回复';
@@ -105,26 +125,6 @@ $(window).ready(function() {
 				console.log(data)
 			}
 		})
-
-		console.log(totalCount);
-		console.log(pageCount);
-		/*分页信息*/
-		var totalPage = pageCount;
-
-		var pageIndex = location.hash.replace('#page=', '');
-		pageIndex = pageIndex ? pageIndex : 1;
-
-		if(pageIndex == 1) {
-			$('.prev').addClass('disable');
-		}
-
-		if(pageIndex == totalPage) {
-			$('.next').addClass('disable');
-		}
-
-		$('.pages .curr').text(pageIndex);
-		$('.pages .total-page').text(totalPage);
-		/*分页信息*/
 	}
 	/*加载分页数据*/
 
