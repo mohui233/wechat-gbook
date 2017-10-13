@@ -58,6 +58,29 @@ public class UserController {
 	@RequestMapping(value = {"/", "index"}, method = {RequestMethod.GET, RequestMethod.HEAD})
 	public String index(Model model, HttpSession session, HttpServletRequest request,
 			HttpServletResponse response){
+		List<MessageJsonBean> list = messageService.findAllMessage();
+		model.addAttribute("messages", list);
+		model.addAttribute("message", new Message());
+		//计算出页数并返回给前台
+		model.addAttribute("pageCount", (int)( Math.ceil(messageService.findMessageCount() / FPAGENUM) ));
+		//获取session中的user
+		User sessionUser = (User)session.getAttribute("user");
+		//但session中存在user时，允许留言
+		if(sessionUser != null){
+			model.addAttribute("user", sessionUser);
+			model.addAttribute("ifLogin", true);
+			return "index";
+		}
+		model.addAttribute("ifLogin", false);
+		return "index";
+	}
+
+	/**
+	 * 留言列表
+	 * @param model
+	 */
+	@RequestMapping("messageList")
+	public void list(HttpServletRequest request,HttpServletResponse response)throws IOException, Exception {
 		AbstractBaseResp baseResp = new AbstractBaseResp();
 		List<MessageJsonBean> list = messageService.findAllMessage();
 		baseResp.setObject(list);
@@ -76,20 +99,6 @@ public class UserController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		model.addAttribute("messages", list);
-		model.addAttribute("message", new Message());
-		//计算出页数并返回给前台
-		model.addAttribute("pageCount", (int)( Math.ceil(messageService.findMessageCount() / FPAGENUM) ));
-		//获取session中的user
-		User sessionUser = (User)session.getAttribute("user");
-		//但session中存在user时，允许留言
-		if(sessionUser != null){
-			model.addAttribute("user", sessionUser);
-			model.addAttribute("ifLogin", true);
-			return "index";
-		}
-		model.addAttribute("ifLogin", false);
-		return "index";
 	}
 
 	/**
