@@ -61,10 +61,19 @@
 
 	<div class="edit-view" id="edit-view">
 		<div class="panel">
-			<textarea class="message"></textarea>
+		<form:form modelAttribute="message" method="post" role="form">
+			<textarea name="content" class="message"></textarea>
 			<span class="placeholder">发布新内容</span>
 			<button class="btn cancel-btn">取消</button>
 			<button class="btn submit-btn">发布</button>
+            <c:if test="${ifLogin==false}">
+                <div class="col-sm-offset-6">您还未登录，请先
+                    <a href="${pageContext.request.contextPath}/user/login">登录</a>
+                    		或
+                    <a href="${pageContext.request.contextPath}/user/register">注册</a>
+                </div>
+             </c:if>
+		 </form:form>		
 		</div>
 	</div>
 
