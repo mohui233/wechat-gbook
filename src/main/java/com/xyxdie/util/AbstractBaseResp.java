@@ -4,11 +4,15 @@ public class AbstractBaseResp {
 	private int code;
 	private String message;
 	private Object object;
-	public AbstractBaseResp(int code, String message, Object object) {
+	private Long totalCount;
+	private Integer totalPage;
+	public AbstractBaseResp(int code, String message, Long totalCount, Integer totalPage, Object object) {
 		super();
 		this.code = code;
 		this.message = message;
 		this.object = object;
+		this.totalCount = totalCount;
+		this.totalPage = totalPage;
 	}
 	public AbstractBaseResp() {
 		super();
@@ -30,6 +34,18 @@ public class AbstractBaseResp {
 	}
 	public void setObject(Object object) {
 		this.object = object;
+	}
+	public Long getTotalCount() {
+		return totalCount;
+	}
+	public void setTotalCount(Long totalCount) {
+		this.totalCount = totalCount;
+	}
+	public Integer getTotalPage() {
+		return totalPage;
+	}
+	public void setTotalPage(Integer totalPage) {
+		this.totalPage = totalPage;
 	}
 	
 
