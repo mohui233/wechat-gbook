@@ -3,14 +3,17 @@ package com.xyxdie.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name="message")
-public class Message {
+@Table(name="child")
+public class Child {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @Column(name = "userid", nullable = false)
     private int userid;
+    
+    @Column(name = "pid")
+    private int pid;
 
     @Column(name = "message", nullable = false)
     private String message;
@@ -60,4 +63,11 @@ public class Message {
         this.id = id;
     }
 
+	public int getPid() {
+		return pid;
+	}
+
+	public void setPid(int pid) {
+		this.pid = pid;
+	}
 }
