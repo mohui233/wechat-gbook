@@ -11,6 +11,9 @@ public class Message {
 
     @Column(name = "userid", nullable = false)
     private int userid;
+    
+    @Column(name = "pid")
+    private int pid;
 
     @Column(name = "message", nullable = false)
     private String message;
@@ -59,4 +62,12 @@ public class Message {
     public void setId(int id) {
         this.id = id;
     }
+
+	public int getPid() {
+		return pid;
+	}
+
+	public void setPid(int pid) {
+		this.pid = pid;
+	}
 }
