@@ -61,7 +61,6 @@
 
 	<div class="edit-view" id="edit-view">
 		<div class="panel">
-		 <a href="${pageContext.request.contextPath}/user/login">登录</a>
 		<form:form modelAttribute="message" method="post" role="form">
 			<textarea name="content" class="message"></textarea>
 			<span class="placeholder">发布新内容</span>
