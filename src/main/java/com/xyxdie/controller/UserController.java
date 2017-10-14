@@ -77,6 +77,35 @@ public class UserController {
 	}
 
 	/**
+	 * 提交留言
+	 * @param message   前台传递的留言数据
+	 * @param result
+	 * @param model
+	 * @param session
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = {"/", "/index"}, method = {RequestMethod.POST})
+	public String index(@Valid Message message, HttpSession session, HttpServletRequest request,
+			HttpServletResponse response) throws Exception{
+		User sessionUser = (User) session.getAttribute("user");
+		if(sessionUser != null) {
+			message.setUserid(sessionUser.getId());
+			String content = request.getParameter("content");
+			if(content != null && (content.length()) != 0){
+				message.setMessage(content);
+				message.setDate(messageService.getDate());
+				message.setIp(request.getRemoteAddr());
+				messageService.saveMessage(message);
+			}
+		}
+		return "index";
+	}
+
+
+	/**
 	 * 留言列表
 	 * @param model
 	 */
@@ -110,35 +139,6 @@ public class UserController {
 			e.printStackTrace();
 		}
 	}
-
-	/**
-	 * 提交留言
-	 * @param message   前台传递的留言数据
-	 * @param result
-	 * @param model
-	 * @param session
-	 * @param request
-	 * @param response
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = {"/", "/index"}, method = {RequestMethod.POST})
-	public String index(@Valid Message message, HttpSession session, HttpServletRequest request,
-			HttpServletResponse response) throws Exception{
-		User sessionUser = (User) session.getAttribute("user");
-		if(sessionUser != null) {
-			message.setUserid(sessionUser.getId());
-			String content = request.getParameter("content");
-			if(content != null && (content.length()) != 0){
-				message.setMessage(content);
-				message.setDate(messageService.getDate());
-				message.setIp(request.getRemoteAddr());
-				messageService.saveMessage(message);
-			}
-		}
-		return "index";
-	}
-
 
 	/**
 	 * 根据页面返回对应的json数组
