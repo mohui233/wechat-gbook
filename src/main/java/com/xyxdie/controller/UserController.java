@@ -164,7 +164,7 @@ public class UserController {
 			JSONObject json = new JSONObject();
 			String baseRespToJson = gson.toJson(baseResp);
 			/*发送到前台*/
-			response.setCharacterEncoding("utf-8");
+			response.setCharacterEncoding("gbk");
 			PrintWriter writer;
 			try {
 				json.put("baseResp", baseRespToJson);
