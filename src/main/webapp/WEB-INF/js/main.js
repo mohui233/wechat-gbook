@@ -120,7 +120,7 @@ $(window).ready(function() {
 				//进入详情
 				$('.list .item .content').click(function() {
 					var id = $(this).parents('.item').attr('data-id');
-					window.open('detail.html?id=' + id, '_self');
+					window.open('detail', '_self');
 				});
 			},
 			error: function(data) {
