@@ -57,7 +57,7 @@
 			</div>
 			<div class="btns">
 				<button class="btn reply-btn">回复</button>
-				<a class="goback" href="index">返回首页</a>
+				<a class="goback" href="/">返回首页</a>
 			</div>
 		</div>
 
