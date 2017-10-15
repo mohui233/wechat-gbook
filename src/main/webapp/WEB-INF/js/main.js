@@ -60,7 +60,6 @@ $(window).ready(function() {
 	/*提交*/
 	$('.submit-btn').click(function() {
 		hideEditView(function() {
-			location.reload();
 		});
 		var content = $("#textarea").val();
 		var data = {
@@ -85,6 +84,7 @@ $(window).ready(function() {
 	var data = {};
 	var totalCount = "";
 	var totalPage = "";
+	var id = $(this).parents('.item').attr('data-id');
 	var load_data = function(data) {
 		$.ajax({
 			type: "post",
@@ -120,7 +120,7 @@ $(window).ready(function() {
 				//进入详情
 				$('.list .item .content').click(function() {
 					var id = $(this).parents('.item').attr('data-id');
-					window.open('detail', '_self');
+					window.open('detail?id=' + id, '_self');
 				});
 			},
 			error: function(data) {
