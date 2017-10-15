@@ -97,7 +97,7 @@ $(window).ready(function() {
 				$('.list .item .content').click(function() {
 					var id = $(this).parents('.item').attr('data-id');
 					window.localStorage.setItem("id", id)
-					window.open('detail?id=' + id, '_self');
+					window.open('detail', '_self');
 				});
 			},
 			error: function(data) {
