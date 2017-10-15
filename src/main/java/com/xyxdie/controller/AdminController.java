@@ -197,6 +197,6 @@ public class AdminController {
     public void deleteMessage(@PathVariable int mid, @PathVariable int uid,
                               HttpServletResponse response, HttpServletRequest request) throws Exception{
         messageService.deleteMessageById(mid);
-        response.sendRedirect(request.getContextPath() + "admin/message-"+uid);
+        response.sendRedirect("/admin/message-"+uid);
     }
 }
