@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
+import com.xyxdie.model.Child;
 import com.xyxdie.model.Message;
 import com.xyxdie.model.User;
+import com.xyxdie.service.ChildService;
 import com.xyxdie.service.MessageService;
 import com.xyxdie.service.UserService;
 import com.xyxdie.util.AbstractBaseResp;
@@ -47,6 +49,9 @@ public class UserController {
 
 	@Autowired
 	private MessageService messageService;
+	
+	@Autowired
+	private ChildService childService;
 
 	/**
 	 * 首页
@@ -103,17 +108,27 @@ public class UserController {
 	 * @throws Exception
 	 */
 	@RequestMapping("saveMessage")
-	public String saveMessage(String id, String content, HttpSession session, HttpServletRequest request, 
+	public String saveMessage(Integer pid, String content, HttpSession session, HttpServletRequest request, 
 			HttpServletResponse response)throws IOException, Exception {
 		User sessionUser = (User) session.getAttribute("user");
 		if(sessionUser != null) {
-			Message message = new Message();
-			message.setUserid(sessionUser.getId());
-			if(content != null && (content.length()) != 0){
-				message.setMessage(content);
-				message.setDate(messageService.getDate());
-				message.setIp(request.getRemoteAddr());
-				messageService.saveMessage(message);
+			if(pid == null) {
+				Message message = new Message();
+				message.setUserid(sessionUser.getId());
+				if(content != null && (content.length()) != 0){
+					message.setMessage(content);
+					message.setDate(messageService.getDate());
+					message.setIp(request.getRemoteAddr());
+					messageService.saveMessage(message);
+				}
+			} else {
+				Child child = new Child();
+				child.setPid(pid);
+				child.setUserid(sessionUser.getId());
+				child.setMessage(content);
+				child.setDate(childService.getDate());
+				child.setIp(request.getRemoteAddr());
+				childService.saveChild(child);
 			}
 		}
 		return "index";
