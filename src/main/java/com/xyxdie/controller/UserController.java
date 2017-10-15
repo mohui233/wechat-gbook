@@ -49,64 +49,16 @@ public class UserController {
 	private MessageService messageService;
 
 	/**
+	 * 首页
+	 * @return
+	 */
+	@RequestMapping("/")
+	public String index(){
+		return "index";
+	}
+
+	/**
 	 * 查看留言
-	 * @param model
-	 * @param session
-	 * @return
-	 */
-	@RequestMapping(value = {"/", "index"}, method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String index(Model model, HttpSession session, HttpServletRequest request,
-			HttpServletResponse response){
-		List<MessageJsonBean> list = messageService.findAllMessage();
-		Long count = messageService.findMessageCount();
-		model.addAttribute("messages", list);
-		model.addAttribute("message", new Message());
-		//计算出页数并返回给前台
-		model.addAttribute("pageCount", (int)( Math.ceil(count / FPAGENUM) ));
-		model.addAttribute("totalCount", count);
-		//获取session中的user
-		User sessionUser = (User)session.getAttribute("user");
-		//但session中存在user时，允许留言
-		if(sessionUser != null){
-			model.addAttribute("user", sessionUser);
-			model.addAttribute("ifLogin", true);
-			return "index";
-		}
-		model.addAttribute("ifLogin", false);
-		return "index";
-	}
-
-	/**
-	 * 提交留言
-	 * @param message   前台传递的留言数据
-	 * @param result
-	 * @param model
-	 * @param session
-	 * @param request
-	 * @param response
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = {"/", "/index"}, method = {RequestMethod.POST})
-	public String index(@Valid Message message, HttpSession session, Model model, HttpServletRequest request,
-			HttpServletResponse response) throws Exception{
-		User sessionUser = (User) session.getAttribute("user");
-		if(sessionUser != null) {
-			message.setUserid(sessionUser.getId());
-			String content = request.getParameter("content");
-			if(content != null && (content.length()) != 0){
-				message.setMessage(content);
-				message.setDate(messageService.getDate());
-				message.setIp(request.getRemoteAddr());
-				messageService.saveMessage(message);
-			}
-		}
-		return "index";
-	}
-
-
-	/**
-	 * 留言列表
 	 * @param model
 	 */
 	@RequestMapping("messageList")
@@ -141,15 +93,29 @@ public class UserController {
 	}
 
 	/**
-	 * 根据页面返回对应的json数组
-	 * @param page 第几页
+	 * 提交留言
+	 * @param result
+	 * @param model
+	 * @param session
+	 * @param request
+	 * @param response
 	 * @return
+	 * @throws Exception
 	 */
-	@ResponseBody
-	@RequestMapping(value = "/messageJson-{page}", method = {RequestMethod.GET, RequestMethod.HEAD})
-	public List<MessageJsonBean> json(@PathVariable int page){
-		List<MessageJsonBean> list = messageService.findMessageByPage(page, PAGENUM);
-		return list;
+	@RequestMapping("saveMessage")
+	public void saveMessage(String content, HttpSession session, HttpServletRequest request, 
+			HttpServletResponse response)throws IOException, Exception {
+		User sessionUser = (User) session.getAttribute("user");
+		if(sessionUser != null) {
+			Message message = new Message();
+			message.setUserid(sessionUser.getId());
+			if(content != null && (content.length()) != 0){
+				message.setMessage(content);
+				message.setDate(messageService.getDate());
+				message.setIp(request.getRemoteAddr());
+				messageService.saveMessage(message);
+			}
+		}
 	}
 
 	/**
@@ -376,6 +342,18 @@ public class UserController {
 		uploadImg.uploadimg(file, user, rootPath);
 		model.addAttribute("user", user);
 		return "user/index";
+	}
+
+	/**
+	 * 根据页面返回对应的json数组
+	 * @param page 第几页
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/messageJson-{page}", method = {RequestMethod.GET, RequestMethod.HEAD})
+	public List<MessageJsonBean> json(@PathVariable int page){
+		List<MessageJsonBean> list = messageService.findMessageByPage(page, PAGENUM);
+		return list;
 	}
 
 }
