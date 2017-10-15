@@ -96,7 +96,7 @@ $(window).ready(function() {
 				//进入详情
 				$('.list .item .content').click(function() {
 					var id = $(this).parents('.item').attr('data-id');
-					window.localStorage.setItem("id", id)
+					window.localStorage.setItem("pid", id)
 					window.open('detail', '_self');
 				});
 			},
@@ -110,10 +110,10 @@ $(window).ready(function() {
 	$('.submit-btn').click(function() {
 		hideEditView(function() {
 		});
-		var id = window.localStorage.getItem("id");
+		var pid = window.localStorage.getItem("pid");
 		var content = $("#textarea").val();
 		var data = {
-			id : id,
+			pid : pid,
 		    content: content
 		}
 		$.ajax({
@@ -128,7 +128,7 @@ $(window).ready(function() {
 				console.log(data)
 			}
 		})
-		window.localStorage.removeItem("id");
+		window.localStorage.removeItem("pid");
 	});
 	/*提交*/
 	
