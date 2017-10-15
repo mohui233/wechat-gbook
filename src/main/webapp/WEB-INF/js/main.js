@@ -57,34 +57,10 @@ $(window).ready(function() {
 	});
 	/*回复留言*/
 
-	/*提交*/
-	$('.submit-btn').click(function() {
-		hideEditView(function() {
-		});
-		var content = $("#textarea").val();
-		var data = {
-		    content: content
-		}
-		$.ajax({
-			type: "post",
-			dataType: "json",
-			async: true,
-			url: "saveMessage",
-			data: data,
-			success: function(data) {
-			},
-			error: function(data) {
-				console.log(data)
-			}
-		})
-	});
-	/*提交*/
-
 	var list = [];
 	var data = {};
 	var totalCount = "";
 	var totalPage = "";
-	var id = $(this).parents('.item').attr('data-id');
 	var load_data = function(data) {
 		$.ajax({
 			type: "post",
@@ -120,6 +96,7 @@ $(window).ready(function() {
 				//进入详情
 				$('.list .item .content').click(function() {
 					var id = $(this).parents('.item').attr('data-id');
+					window.localStorage.setItem("id", id)
 					window.open('detail?id=' + id, '_self');
 				});
 			},
@@ -129,6 +106,32 @@ $(window).ready(function() {
 		})
 	}
 
+	/*提交*/
+	$('.submit-btn').click(function() {
+		hideEditView(function() {
+		});
+		var id = window.localStorage.getItem("id");
+		var content = $("#textarea").val();
+		var data = {
+			id : id,
+		    content: content
+		}
+		$.ajax({
+			type: "post",
+			dataType: "json",
+			async: true,
+			url: "saveMessage",
+			data: data,
+			success: function(data) {
+			},
+			error: function(data) {
+				console.log(data)
+			}
+		})
+		window.localStorage.removeItem("id");
+	});
+	/*提交*/
+	
 	var pageIndex = location.hash.replace('#page=', '');
 	pageIndex = pageIndex ? pageIndex : 1;
 
