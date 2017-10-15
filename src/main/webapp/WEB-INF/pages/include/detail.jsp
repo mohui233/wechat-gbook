@@ -104,7 +104,10 @@
 					error: function(data) {
 						console.log(data)
 					}
-				})
+				});
+				$('.goback').click(function() {
+					window.localStorage.removeItem("pid");
+				});
 			</script>
 		</div>
 	</body>
