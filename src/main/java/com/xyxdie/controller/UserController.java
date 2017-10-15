@@ -238,7 +238,7 @@ public class UserController {
 		messageService.deleteMessageById(mid);
 		List<Message> list = messageService.findMessagesByUserId(user.getId());
 		model.addAttribute("messages", list);
-		return "user/message-1";
+		return "user/message";
 	}
 
 	/**
