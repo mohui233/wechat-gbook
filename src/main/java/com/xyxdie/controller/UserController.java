@@ -103,7 +103,7 @@ public class UserController {
 	 * @throws Exception
 	 */
 	@RequestMapping("saveMessage")
-	public void saveMessage(String content, HttpSession session, HttpServletRequest request, 
+	public String saveMessage(String content, HttpSession session, HttpServletRequest request, 
 			HttpServletResponse response)throws IOException, Exception {
 		User sessionUser = (User) session.getAttribute("user");
 		if(sessionUser != null) {
@@ -116,6 +116,7 @@ public class UserController {
 				messageService.saveMessage(message);
 			}
 		}
+		return "index";
 	}
 
 	/**
@@ -124,8 +125,8 @@ public class UserController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = {"/detail"}, method = {RequestMethod.GET, RequestMethod.HEAD})
-	public String detail(Model model){
+	@RequestMapping("detail")
+	public String detail(){
 		return "include/detail";
 	}
 
