@@ -25,36 +25,6 @@
 		</div>
 
 		<div class="list">
-			<div class="item self">
-				<div class="info">
-					<img class="headpic" src="${pageContext.request.contextPath}/img/headpic.jpg" />
-					<span class="name">先知</span>
-					<span class="date">2017.08.09 12:00</span>
-				</div>
-				<div class="content">
-					<span class="caption">请问做一个官网的话你们的工期大概是多长时间？？？</span>
-				</div>
-			</div>
-			<div class="item other">
-				<div class="info">
-					<img class="headpic" src="${pageContext.request.contextPath}/img/headpic.jpg" />
-					<span class="name">管理员</span>
-					<span class="date">2017.08.09 12:00</span>
-				</div>
-				<div class="content">
-					<span class="caption">网站建设的话一般在15个工作日之内，这些功能都不难实现，就看你能给多少钱，给的越多做的越快。</span>
-				</div>
-			</div>
-			<div class="item self">
-				<div class="info">
-					<img class="headpic" src="${pageContext.request.contextPath}/img/headpic.jpg" />
-					<span class="name">先知</span>
-					<span class="date">2017.08.09 12:00</span>
-				</div>
-				<div class="content">
-					<span class="caption">哦</span>
-				</div>
-			</div>
 			<div class="btns">
 				<button class="btn reply-btn">回复</button>
 				<a class="goback" href="/">返回首页</a>
@@ -89,6 +59,53 @@
 			<script src="${pageContext.request.contextPath}/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
 			<script src="${pageContext.request.contextPath}/js/dot.js" type="text/javascript" charset="utf-8"></script>
 			<script src="${pageContext.request.contextPath}/js/main.js" type="text/javascript" charset="utf-8"></script>
+			<script>
+				var pid = window.localStorage.getItem("pid");
+				$.ajax({
+					type: "post",
+					dataType: "json",
+					async: true,
+					url: "childList",
+					data: {
+						pid : pid
+					},
+					success: function(data) {
+						for (var i = 0; i < data.object.length; i++) {
+							var a = data.object[i];
+							if (a.type==1) {
+								$(".list").append(
+									"<div class='item self'>" +
+									"<div class='info'>" +
+									"<img class='headpic' src="+'upload/'+a.imgUrl+" />" + 
+									"<span class='name'> "+a.name+" </span>" + 
+									"<span class='date'>"+a.date+"</span>" +
+									"</div>" + 
+									"<div class='content'>" +
+									"<span class='caption'>"+a.message+"</span>" +
+									"</div>" +
+									"</div>"
+								);
+							} else {
+								$(".list").append(
+										"<div class='item other'>" +
+										"<div class='info'>" +
+										"<img class='headpic' src="+'upload/'+a.imgUrl+" />" + 
+										"<span class='name'> "+a.name+" </span>" + 
+										"<span class='date'>"+a.date+"</span>" +
+										"</div>" + 
+										"<div class='content'>" +
+										"<span class='caption'>"+a.message+"</span>" +
+										"</div>" +
+										"</div>"
+								);
+							}
+						}
+					},
+					error: function(data) {
+						console.log(data)
+					}
+				})
+			</script>
 		</div>
 	</body>
 </html>
