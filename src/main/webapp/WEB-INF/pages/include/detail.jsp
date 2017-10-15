@@ -72,15 +72,18 @@
 			</div>
 			<span class="company">北京项越兄弟智能工程技术有限公司</span>
 		</div>
-
+		
 		<div class="edit-view" id="edit-view">
 			<div class="panel">
-				<textarea class="message"></textarea>
+			<form method="post">
+				<textarea id="textarea" name="content"></textarea>
 				<span class="placeholder">回复内容</span>
 				<button class="btn cancel-btn">取消</button>
-				<button class="btn submit-btn">确认</button>
+				<button class="btn submit-btn">发布</button>
+			 </form>	
 			</div>
 		</div>
+	
 
 		<div class="loadjs">
 			<script src="${pageContext.request.contextPath}/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
