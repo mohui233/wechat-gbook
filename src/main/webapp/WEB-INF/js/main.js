@@ -128,7 +128,6 @@ $(window).ready(function() {
 				console.log(data)
 			}
 		})
-		window.localStorage.removeItem("pid");
 	});
 	/*提交*/
 	
