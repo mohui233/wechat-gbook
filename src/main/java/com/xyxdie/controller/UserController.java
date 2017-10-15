@@ -103,7 +103,7 @@ public class UserController {
 	 * @throws Exception
 	 */
 	@RequestMapping("saveMessage")
-	public String saveMessage(String content, HttpSession session, HttpServletRequest request, 
+	public String saveMessage(String id, String content, HttpSession session, HttpServletRequest request, 
 			HttpServletResponse response)throws IOException, Exception {
 		User sessionUser = (User) session.getAttribute("user");
 		if(sessionUser != null) {
