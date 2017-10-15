@@ -62,6 +62,22 @@ $(window).ready(function() {
 		hideEditView(function() {
 			location.reload();
 		});
+		var content = $("#textarea").val();
+		var data = {
+		    content: content
+		}
+		$.ajax({
+			type: "post",
+			dataType: "json",
+			async: true,
+			url: "saveMessage",
+			data: data,
+			success: function(data) {
+			},
+			error: function(data) {
+				console.log(data)
+			}
+		})
 	});
 	/*提交*/
 
