@@ -17,6 +17,7 @@ import com.xyxdie.service.UserService;
 import com.xyxdie.util.AbstractBaseResp;
 import com.xyxdie.util.UploadImg;
 import com.xyxdie.util.Validate;
+import com.xyxdie.vo.ChildJsonBean;
 import com.xyxdie.vo.MessageJsonBean;
 
 import net.sf.json.JSONObject;
@@ -49,7 +50,7 @@ public class UserController {
 
 	@Autowired
 	private MessageService messageService;
-	
+
 	@Autowired
 	private ChildService childService;
 
@@ -63,11 +64,11 @@ public class UserController {
 	}
 
 	/**
-	 * 查看留言
+	 * 父贴留言
 	 * @param model
 	 */
 	@RequestMapping("messageList")
-	public void list(String pageIndex, HttpServletRequest request, HttpServletResponse response)throws IOException, Exception {
+	public void messageList(String pageIndex, HttpServletRequest request, HttpServletResponse response)throws IOException, Exception {
 		AbstractBaseResp baseResp = new AbstractBaseResp();
 		Long totalCount = messageService.findMessageCount();
 		//计算出页数并返回给前台
@@ -143,6 +144,38 @@ public class UserController {
 	@RequestMapping("detail")
 	public String detail(){
 		return "include/detail";
+	}
+
+	/**
+	 * 子贴留言
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("childList")
+	public void childList(String pid, HttpServletRequest request, 
+			HttpServletResponse response)throws IOException, Exception {
+		AbstractBaseResp baseResp = new AbstractBaseResp();
+		if (pid!=null && pid.length()!=0) {
+			int id = Integer.parseInt(pid);
+			List<ChildJsonBean> list = childService.findAllChild(id);
+			baseResp.setObject(list);
+			Gson gson = new Gson();
+			JSONObject json = new JSONObject();
+			String baseRespToJson = gson.toJson(baseResp);
+			/*发送到前台*/
+			response.setCharacterEncoding("utf-8");
+			PrintWriter writer;
+			try {
+				json.put("baseResp", baseRespToJson);
+				writer = response.getWriter();
+				writer.print(baseRespToJson);
+				writer.flush();
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/**
