@@ -18,5 +18,10 @@ public interface MessageDao {
 
     Long findMessageCount();
 
+    Long findMsingleCount(int userid);
+    
     List<MessageJsonBean> findMessageByPage(final int pageNo,final int pageSize );
+
+	List<MessageJsonBean> findMessageBySingle(final int pageNo, final int pageSize, int userid);
+
 }

@@ -20,8 +20,13 @@ public interface MessageService {
     void deleteMessageById(int id);
 
     Long findMessageCount();
+    
+    Long findMsingleCount(int userid);
 
     String getDate();
 
     List<MessageJsonBean> findMessageByPage(int pageNo,int pageSize );
+
+	List<MessageJsonBean> findMessageBySingle(int pageNo, int pageSize, int userid);
+
 }

@@ -47,15 +47,24 @@ public class MessageServiceImp implements MessageService{
     public Long findMessageCount(){
         return messageDao.findMessageCount();
     }
+    
+    public Long findMsingleCount(int userid){
+        return messageDao.findMsingleCount(userid);
+    }
 
     public List<MessageJsonBean> findMessageByPage(int pageNo,int pageSize ){
         return messageDao.findMessageByPage(pageNo, pageSize);
     }
 
+	public List<MessageJsonBean> findMessageBySingle(int pageNo, int pageSize, int userid) {
+        return messageDao.findMessageBySingle(pageNo, pageSize, userid);
+	}
+	
     public String getDate(){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date now = new Date();
         String dataString = sdf.format(now);
         return dataString;
     }
+
 }
