@@ -62,7 +62,7 @@
 	<div class="edit-view" id="edit-view">
 		<div class="panel">
 		<form method="post">
-			<textarea id="textarea" name="content"></textarea>
+			<textarea id="textarea" autocomplete="off" name="content"></textarea>
 			<span class="placeholder">发布新内容</span>
 			<button type="button" class="btn cancel-btn">取消</button>
 			<button type="button" class="btn submit-btn">发布</button>
