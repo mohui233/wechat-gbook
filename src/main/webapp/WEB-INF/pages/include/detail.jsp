@@ -15,7 +15,6 @@
 
 	<body class="detail-page">
 		<div class="head">
-			<h2>先知 的留言</h2>
 			<span class="des">每一条留言我们都会认真反馈</span>
 			<a href="javascript:window.history.back();location.reload();">
 				<button class="btn news-btn"><img src="${pageContext.request.contextPath}/img/back.png"/></button>
@@ -60,6 +59,10 @@
 			<script src="${pageContext.request.contextPath}/js/dot.js" type="text/javascript" charset="utf-8"></script>
 			<script src="${pageContext.request.contextPath}/js/main.js" type="text/javascript" charset="utf-8"></script>
 			<script>
+				var pname = window.localStorage.getItem("pname");
+				$(".detail-page .head").append(
+					"<h2>"+pname+" 的留言</h2>"
+				);
 				var pid = window.localStorage.getItem("pid");
 				$.ajax({
 					type: "post",
@@ -104,9 +107,6 @@
 					error: function(data) {
 						console.log(data)
 					}
-				});
-				$('.goback').click(function() {
-					window.localStorage.removeItem("pid");
 				});
 			</script>
 		</div>
