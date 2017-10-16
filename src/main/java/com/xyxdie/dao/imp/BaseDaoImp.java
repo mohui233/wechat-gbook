@@ -1,5 +1,6 @@
 package com.xyxdie.dao.imp;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -22,9 +23,8 @@ public  class BaseDaoImp<T> extends HibernateDaoSupport implements BaseDao<T> {
     }
 
     @Transactional(readOnly=false)
-    public void save(T entity) {
-        // TODO Auto-generated method stu
-        getHibernateTemplate().save(entity);
+    public int save(T entity) {
+        return (int)getHibernateTemplate().save(entity);
     }
 
     @Transactional(readOnly=true)

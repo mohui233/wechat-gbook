@@ -3,7 +3,7 @@ package com.xyxdie.dao;
 import java.util.List;
 
 public interface BaseDao<T>{
-    public void save(T entity);
+    public int save(T entity);
     public T get(Class<?> clazz, Integer id);
     public void update(T entity);
     public void delete(T entity);

@@ -132,7 +132,9 @@ public class UserController {
 	@RequestMapping("saveMessage")
 	public String saveMessage(Integer pid, String content, HttpSession session, HttpServletRequest request, 
 			HttpServletResponse response)throws IOException, Exception {
+		AbstractBaseResp baseResp = new AbstractBaseResp();
 		User sessionUser = (User) session.getAttribute("user");
+		int code = 0;
 		if(sessionUser != null) {
 			if(pid == null) {
 				Message message = new Message();
@@ -141,7 +143,7 @@ public class UserController {
 					message.setMessage(content);
 					message.setDate(messageService.getDate());
 					message.setIp(request.getRemoteAddr());
-					messageService.saveMessage(message);
+					code = messageService.saveMessage(message);
 				}
 			} else {
 				Child child = new Child();
@@ -150,8 +152,24 @@ public class UserController {
 				child.setMessage(content);
 				child.setDate(childService.getDate());
 				child.setIp(request.getRemoteAddr());
-				childService.saveChild(child);
+				code = childService.saveChild(child);
 			}
+		}
+		baseResp.setCode(code);
+		Gson gson = new Gson();
+		JSONObject json = new JSONObject();
+		String baseRespToJson = gson.toJson(baseResp);
+		/*发送到前台*/
+		response.setCharacterEncoding("utf-8");
+		PrintWriter writer;
+		try {
+			json.put("baseResp", baseRespToJson);
+			writer = response.getWriter();
+			writer.print(baseRespToJson);
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		return "index";
 	}

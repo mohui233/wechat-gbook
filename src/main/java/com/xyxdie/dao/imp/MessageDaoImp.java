@@ -36,8 +36,8 @@ public class MessageDaoImp extends BaseDaoImp<Message> implements MessageDao {
         return list;
     }
 
-    public void saveMessage(Message message){
-        save(message);
+    public int saveMessage(Message message){
+		return save(message);
     }
 
     public void deleteMessage(Message message){
