@@ -41,8 +41,8 @@ public class ChildDaoImp extends BaseDaoImp<Child> implements ChildDao {
         return (Long)getHibernateTemplate().find(hql).listIterator().next();
     }
     
-    public void saveChild(Child child){
-        save(child);
+    public int saveChild(Child child){
+        return save(child);
     }
 
     public void deleteChild(Child child){

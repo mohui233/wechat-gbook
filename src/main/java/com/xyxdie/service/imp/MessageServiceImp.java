@@ -32,8 +32,8 @@ public class MessageServiceImp implements MessageService{
         return messageDao.findAllMessage();
     }
 
-    public void saveMessage(Message message){
-        messageDao.saveMessage(message);
+    public int saveMessage(Message message){
+        return messageDao.saveMessage(message);
     }
 
     public void deleteMessage(Message message){

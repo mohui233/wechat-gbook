@@ -32,8 +32,8 @@ public class ChildServiceImp implements ChildService{
         return childDao.findAllChild(pid);
     }
 
-    public void saveChild(Child Child){
-    	childDao.saveChild(Child);
+    public int saveChild(Child Child){
+		return childDao.saveChild(Child);
     }
 
     public void deleteChild(Child Child){

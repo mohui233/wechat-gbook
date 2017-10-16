@@ -13,7 +13,7 @@ public interface MessageService {
 
     List<MessageJsonBean> findAllMessage();
 
-    void saveMessage(Message message);
+    int saveMessage(Message message);
 
     void deleteMessage(Message message);
 

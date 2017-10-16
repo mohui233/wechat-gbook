@@ -12,7 +12,7 @@ public interface ChildDao {
 
     List<ChildJsonBean> findAllChild(int pid);
 
-    void saveChild(Child child);
+    int saveChild(Child child);
 
     void deleteChild(Child child);
 

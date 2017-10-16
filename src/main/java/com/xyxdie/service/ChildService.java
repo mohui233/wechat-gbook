@@ -13,7 +13,7 @@ public interface ChildService {
 
     List<ChildJsonBean> findAllChild(int pid);
 
-    void saveChild(Child child);
+    int saveChild(Child child);
 
     void deleteChild(Child child);
 
