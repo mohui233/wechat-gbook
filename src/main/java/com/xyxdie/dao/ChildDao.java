@@ -19,4 +19,6 @@ public interface ChildDao {
     Long findChildCount();
 
     List<ChildJsonBean> findChildByPage(final int pageNo,final int pageSize );
+
+	Long isGbook(int pid, int userid);
 }

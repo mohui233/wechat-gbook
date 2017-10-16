@@ -30,7 +30,7 @@ public class MessageDaoImp extends BaseDaoImp<Message> implements MessageDao {
     @SuppressWarnings("unchecked")
     public List<MessageJsonBean> findAllMessage(){
         String hql = "select new com.xyxdie.vo.MessageJsonBean(" +
-                "u.id, u.name, m.ip, m.date, m.message, u.imgUrl) " +
+                "u.id, u.name, m.ip, m.date, m.message, u.imgUrl, m.status) " +
                 "from User u, Message m where m.userid = u.id Order by m.id desc";
         List<MessageJsonBean> list = (List<MessageJsonBean>) getHibernateTemplate().find(hql);
         return list;
@@ -53,7 +53,7 @@ public class MessageDaoImp extends BaseDaoImp<Message> implements MessageDao {
     public List<MessageJsonBean> findMessageByPage(final int pageNo,final int pageSize ){
 
         final String hql = "select new com.xyxdie.vo.MessageJsonBean(" +
-                "m.id, u.name, m.ip, m.date, m.message, u.imgUrl) " +
+                "m.id, u.name, m.ip, m.date, m.message, u.imgUrl, m.status) " +
                 "from User u, Message m where m.userid = u.id Order by m.id desc";
 
         List<MessageJsonBean> list = (List<MessageJsonBean>) getHibernateTemplate().execute(new HibernateCallback<List<MessageJsonBean>>() {

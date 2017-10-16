@@ -78,6 +78,15 @@ public class UserController {
 			page= Integer.valueOf(pageIndex);
 		}
 		List<MessageJsonBean> list = messageService.findMessageByPage(page, PAGENUM);
+		for(MessageJsonBean me : list) {
+			int pid = me.getId();
+			Long status = childService.isGbook(pid, 1);
+			if (status>0){
+				me.setStatus(1);
+			} else {
+				me.setStatus(0);
+			}
+		}
 		baseResp.setObject(list);
 		baseResp.setTotalCount(totalCount);
 		baseResp.setTotalPage(totalPage);

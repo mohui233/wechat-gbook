@@ -9,14 +9,16 @@ public class MessageJsonBean {
     private String date;
     private String message;
     private String imgUrl;
+    private int status;
 
-    public MessageJsonBean(int id, String name, String ip, String date, String message, String imgUrl) {
-    	this.setId(id);
+    public MessageJsonBean(int id, String name, String ip, String date, String message, String imgUrl, int status) {
+    	this.id = id;
         this.name = name;
         this.ip = ip;
         this.date = date;
         this.message = message;
         this.imgUrl = imgUrl;
+        this.status = status;
     }
 
     public String getImgUrl() {
@@ -67,6 +69,12 @@ public class MessageJsonBean {
 		this.id = id;
 	}
 
+	public int getStatus() {
+		return status;
+	}
 
+	public void setStatus(int status) {
+		this.status = status;
+	}
 
 }

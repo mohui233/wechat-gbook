@@ -58,4 +58,9 @@ public class ChildServiceImp implements ChildService{
         String dataString = sdf.format(now);
         return dataString;
     }
+
+	@Override
+	public Long isGbook(int pid, int userid) {
+        return childDao.isGbook(pid, userid);
+	}
 }
