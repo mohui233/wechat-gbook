@@ -24,4 +24,6 @@ public interface ChildService {
     String getDate();
 
     List<ChildJsonBean> findChildByPage(int pageNo,int pageSize );
+
+	Long isGbook(int pid, int userid);
 }

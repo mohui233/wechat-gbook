@@ -36,6 +36,11 @@ public class ChildDaoImp extends BaseDaoImp<Child> implements ChildDao {
         return list;
     }
 
+    public Long isGbook(int pid, int userid){
+        String hql = "select count(*) from Child as m where m.userid = " + userid + " and m.pid = " + pid;
+        return (Long)getHibernateTemplate().find(hql).listIterator().next();
+    }
+    
     public void saveChild(Child child){
         save(child);
     }
