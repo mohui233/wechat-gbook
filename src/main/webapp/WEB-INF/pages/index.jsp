@@ -64,8 +64,8 @@
 		<form method="post">
 			<textarea id="textarea" name="content"></textarea>
 			<span class="placeholder">发布新内容</span>
-			<button class="btn cancel-btn">取消</button>
-			<button class="btn submit-btn">发布</button>
+			<button type="button" class="btn cancel-btn">取消</button>
+			<button type="button" class="btn submit-btn">发布</button>
 		 </form>		
 		</div>
 	</div>
