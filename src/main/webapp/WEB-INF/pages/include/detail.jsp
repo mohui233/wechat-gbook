@@ -79,7 +79,7 @@
 						for (var i = 0; i < data.object.length; i++) {
 							var a = data.object[i];
 							if (a.type==1) {
-								$(".list").append(
+								$(".list").prepend(
 									"<div class='item self'>" +
 									"<div class='info'>" +
 									"<img class='headpic' src="+'upload/'+a.imgUrl+" />" + 
@@ -92,7 +92,7 @@
 									"</div>"
 								);
 							} else {
-								$(".list").append(
+								$(".list").prepend(
 										"<div class='item other'>" +
 										"<div class='info'>" +
 										"<img class='headpic' src="+'upload/'+a.imgUrl+" />" + 
