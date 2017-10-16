@@ -28,6 +28,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -68,16 +69,25 @@ public class UserController {
 	 * @param model
 	 */
 	@RequestMapping("messageList")
-	public void messageList(String pageIndex, HttpServletRequest request, HttpServletResponse response)throws IOException, Exception {
+	public void messageList(String pageIndex, HttpSession session, HttpServletRequest request, HttpServletResponse response)throws IOException, Exception {
 		AbstractBaseResp baseResp = new AbstractBaseResp();
-		Long totalCount = messageService.findMessageCount();
-		//计算出页数并返回给前台
-		Integer totalPage = (int)( Math.ceil(totalCount / FPAGENUM) );
+		List<MessageJsonBean> list = new ArrayList<MessageJsonBean>();
+		User sessionUser = (User) session.getAttribute("user");
+		Long totalCount = 1L;
 		Integer page = 1;
 		if(pageIndex != null && (pageIndex.length()) != 0){
 			page= Integer.valueOf(pageIndex);
 		}
-		List<MessageJsonBean> list = messageService.findMessageByPage(page, PAGENUM);
+		if(sessionUser!=null) {
+			int userid = sessionUser.getId();
+			if(userid!=1){
+				totalCount = messageService.findMsingleCount(userid);
+				list = messageService.findMessageBySingle(page, PAGENUM, userid);
+			} else {
+				totalCount = messageService.findMessageCount();
+				list = messageService.findMessageByPage(page, PAGENUM);
+			}
+		}
 		for(MessageJsonBean me : list) {
 			int pid = me.getId();
 			Long status = childService.isGbook(pid, 1);
@@ -87,6 +97,8 @@ public class UserController {
 				me.setStatus(0);
 			}
 		}
+		//计算出页数并返回给前台
+		Integer totalPage = (int)( Math.ceil(totalCount / FPAGENUM) );
 		baseResp.setObject(list);
 		baseResp.setTotalCount(totalCount);
 		baseResp.setTotalPage(totalPage);

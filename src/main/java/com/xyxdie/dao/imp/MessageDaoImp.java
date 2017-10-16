@@ -48,6 +48,11 @@ public class MessageDaoImp extends BaseDaoImp<Message> implements MessageDao {
         String hql = "select count(*) from Message as message";
         return (Long)getHibernateTemplate().find(hql).listIterator().next();
     }
+    
+    public Long findMsingleCount(int userid){
+        String hql = "select count(*) from Message as m where m.userid = "+ userid;
+        return (Long)getHibernateTemplate().find(hql).listIterator().next();
+    }
 
     @SuppressWarnings("unchecked")
     public List<MessageJsonBean> findMessageByPage(final int pageNo,final int pageSize ){
@@ -67,4 +72,23 @@ public class MessageDaoImp extends BaseDaoImp<Message> implements MessageDao {
         });
         return list;
     }
+
+	@Override
+	public List<MessageJsonBean> findMessageBySingle(final int pageNo, final int pageSize, int userid) {
+        final String hql = "select new com.xyxdie.vo.MessageJsonBean(" +
+                "m.id, u.name, m.ip, m.date, m.message, u.imgUrl, m.status) " +
+                "from User u, Message m where m.userid = u.id  and m.userid = "+ userid +
+                " Order by m.id desc";
+
+        List<MessageJsonBean> list = (List<MessageJsonBean>) getHibernateTemplate().execute(new HibernateCallback<List<MessageJsonBean>>() {
+
+            @SuppressWarnings("unchecked")
+            public List<MessageJsonBean> doInHibernate(Session session) throws HibernateException {
+                // TODO Auto-generated method stub
+                List<MessageJsonBean> result = session.createQuery(hql).setFirstResult((pageNo-1)*pageSize).setMaxResults(pageSize).list();
+                return result;
+            }
+        });
+        return list;
+	}
 }
