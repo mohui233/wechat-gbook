@@ -60,6 +60,9 @@
 			<script src="${pageContext.request.contextPath}/js/main.js" type="text/javascript" charset="utf-8"></script>
 			<script>
 				var pname = window.localStorage.getItem("pname");
+				if (pname==null){
+					pname = "用户";
+				}
 				$(".detail-page .head").append(
 					"<h2>"+pname+" 的留言</h2>"
 				);
