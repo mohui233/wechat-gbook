@@ -115,8 +115,7 @@ $(window).ready(function() {
 
 	/*提交*/
 	$('.submit-btn').click(function() {
-		hideEditView(function() {
-		});
+		hideEditView();
 		var pid = window.localStorage.getItem("pid");
 		var content = $("#textarea").val();
 		var data = {
@@ -130,6 +129,7 @@ $(window).ready(function() {
 			url: "saveMessage",
 			data: data,
 			success: function(data) {
+				console.log(data);
 			},
 			error: function(data) {
 				console.log(data)
