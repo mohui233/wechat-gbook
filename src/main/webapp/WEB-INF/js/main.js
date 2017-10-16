@@ -72,9 +72,14 @@ $(window).ready(function() {
 				totalCount = data.totalCount;
 				totalPage = data.totalPage;
 				list = [];
-				var answer = '管理员：请等待我的回复';
 				for (var i = 0; i < data.object.length; i++) {
 					var a = data.object[i];
+					var answer = "";
+					if(a.status==0) {
+						answer = '管理员：请等待我的回复';
+					} else {
+						answer = '管理员：已回复，请查看';
+					}
 					var item = {
 							id: a.id,
 							name: a.name,
@@ -96,7 +101,9 @@ $(window).ready(function() {
 				//进入详情
 				$('.list .item .content').click(function() {
 					var id = $(this).parents('.item').attr('data-id');
+					var name = $(this).prev('.info').find('.name').html();
 					window.localStorage.setItem("pid", id)
+					window.localStorage.setItem("pname", name)
 					window.open('detail', '_self');
 				});
 			},

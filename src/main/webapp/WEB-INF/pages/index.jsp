@@ -76,6 +76,7 @@
 		<script src="${pageContext.request.contextPath}/js/main.js" type="text/javascript" charset="utf-8"></script>
 		<script>
 			window.localStorage.removeItem("pid");
+			window.localStorage.removeItem("pname");
 		</script>
 	</div>
 </body>
