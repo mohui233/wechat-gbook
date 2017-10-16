@@ -129,10 +129,10 @@ $(window).ready(function() {
 			url: "saveMessage",
 			data: data,
 			success: function(data) {
-				console.log(data);
+				$.ajaxSetup ({ cache: false }); 
+				location.reload();
 			},
 			error: function(data) {
-				console.log(data)
 			}
 		})
 	});
