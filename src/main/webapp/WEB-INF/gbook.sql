@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50173
 File Encoding         : 65001
 
-Date: 2017-10-17 10:21:35
+Date: 2017-10-17 10:32:41
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -102,8 +102,8 @@ CREATE TABLE `user` (
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES ('1', '2', '项越兄弟', '1327342025@qq.com', '12345678', 'nopic.jpg');
-INSERT INTO `user` VALUES ('2', '1', '林声声', '849528477@qq.com', '12345678', 'nopic.jpg');
-INSERT INTO `user` VALUES ('8', '1', '是以彤啊', 'lichengyun@gmail.com', '12345678', 'nopic.jpg');
-INSERT INTO `user` VALUES ('9', '1', '浑沌七日死', 'licyun@163.com', '12345678', 'nopic.jpg');
-INSERT INTO `user` VALUES ('10', '1', '喵了个咪', 'licyun@qq.com', '12345678', 'nopic.jpg');
-INSERT INTO `user` VALUES ('11', '1', '是朕', 'licyun@admin.com', '12345678', 'nopic.jpg');
+INSERT INTO `user` VALUES ('2', '1', '林声声', 'wangzj@outlook.com', '12345678', 'nopic.jpg');
+INSERT INTO `user` VALUES ('8', '1', '是以彤啊', 'wangzj@gmail.com', '12345678', 'nopic.jpg');
+INSERT INTO `user` VALUES ('9', '1', '浑沌七日死', 'wangzj@163.com', '12345678', 'nopic.jpg');
+INSERT INTO `user` VALUES ('10', '1', '喵了个咪', 'wangzj@qq.com', '12345678', 'nopic.jpg');
+INSERT INTO `user` VALUES ('11', '1', '是朕', 'wangzj@admin.com', '12345678', 'nopic.jpg');
