@@ -24,4 +24,6 @@ public interface MessageDao {
 
 	List<MessageJsonBean> findMessageBySingle(final int pageNo, final int pageSize, int userid);
 
+	List<MessageJsonBean> findMessageJsonBeanById(int id);
+
 }

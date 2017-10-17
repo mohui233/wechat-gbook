@@ -28,6 +28,15 @@ public class MessageDaoImp extends BaseDaoImp<Message> implements MessageDao {
     }
 
     @SuppressWarnings("unchecked")
+    public List<MessageJsonBean> findMessageJsonBeanById(int id){
+        String hql = "select new com.xyxdie.vo.MessageJsonBean(" +
+                "u.id, u.name, m.ip, m.date, m.message, u.imgUrl, u.type) " +
+                "from User u, Message m where m.userid = u.id AND m.id = "+ id;
+        List<MessageJsonBean> list = (List<MessageJsonBean>) getHibernateTemplate().find(hql);
+        return list;
+    }
+
+    @SuppressWarnings("unchecked")
     public List<MessageJsonBean> findAllMessage(){
         String hql = "select new com.xyxdie.vo.MessageJsonBean(" +
                 "u.id, u.name, m.ip, m.date, m.message, u.imgUrl, m.status) " +

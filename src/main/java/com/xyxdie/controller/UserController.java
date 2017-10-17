@@ -198,6 +198,13 @@ public class UserController {
 		if (pid!=null && pid.length()!=0) {
 			int id = Integer.parseInt(pid);
 			List<ChildJsonBean> list = childService.findAllChild(id);
+			List<MessageJsonBean> messageJsonBean = messageService.findMessageJsonBeanById(id);
+			if (null != messageJsonBean && messageJsonBean.size() > 0) {
+				for (MessageJsonBean me : messageJsonBean) {
+					ChildJsonBean childJsonBean = new ChildJsonBean(1, id, me.getName(), me.getIp(), me.getDate(),  me.getMessage(),  me.getImgUrl(), 1);
+					list.add(childJsonBean);
+				}
+			}
 			baseResp.setObject(list);
 			Gson gson = new Gson();
 			JSONObject json = new JSONObject();

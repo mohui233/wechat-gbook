@@ -67,4 +67,9 @@ public class MessageServiceImp implements MessageService{
         return dataString;
     }
 
+	@Override
+	public List<MessageJsonBean> findMessageJsonBeanById(int id) {
+        return messageDao.findMessageJsonBeanById(id);
+	}
+
 }
