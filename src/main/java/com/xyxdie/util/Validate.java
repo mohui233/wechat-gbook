@@ -44,7 +44,7 @@ public class Validate {
     public void registValidate(User user, Errors errors){
         commonValidate(user, errors);
         //判断name格式是否正确
-        if(user.getName().length() < 6){
+        if(user.getName().length() == 0 ){
             errors.rejectValue("name", "username.valid");
         }
         //判断邮箱是否已经存在
