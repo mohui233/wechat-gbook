@@ -3,85 +3,81 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
 <head>
-    <title>留言板</title>
+    <title>留言大厅</title>
     <meta charset="UTF-8"/>
-    <c:import url="/WEB-INF/pages/include/inc.jsp"/>
+   	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+	<meta content="telephone=no" name="format-detection" />
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css" />
+    <%-- <c:import url="/WEB-INF/pages/include/inc.jsp"/> --%>
 </head>
-<body>
-<c:if test="${ifLogin==true}">
-    <c:import url="/WEB-INF/pages/include/user_header.jsp"/>
-</c:if>
-<c:if test="${ifLogin==false}">
-    <c:import url="/WEB-INF/pages/include/login_header.jsp"/>
-</c:if>
+<body class="main-page">
+	<div class="head">
+		<h2>留言大厅</h2>
+		<span class="des">管理员会尽快处理您的留言</span>
+		<a href="mynews"><button class="btn news-btn"><img src="${pageContext.request.contextPath}/img/comments.png"/></button></a>
+		<button class="btn publish-btn">发布留言</button>
+		<span class="dot"></span>
+		<span class="line"></span>
+	</div>
 
-<h1 class="col-sm-offset-1">留言板</h1>
-<div class="container">
-    <div class="col-sm-offset-1 col-sm-10">
-        <form:form modelAttribute="message" method="post" role="form">
-            <div class="form-group">
-                    <div class="col-sm-12">
-                        <form:textarea path="message" id="message" class="form-control" rows="3"/>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-offset-4 col-sm-8">
-                    <c:if test="${ifLogin==true}">
-                        <input type="submit" class="btn btn-default col-sm-offset-8 submit-top" value="提交留言"/>
-                    </c:if>
-                    <c:if test="${ifLogin==false}">
-                        <div class="col-sm-offset-6">
-                            您还未登录，请先
-                            <a href="${pageContext.request.contextPath}/user/login">登录</a>
-                            或
-                            <a href="${pageContext.request.contextPath}/user/register">注册</a>
-                        </div>
-                    </c:if>
-                </div>
-            </div>
-        </form:form>
-    </div>
-    <div class="allcomment col-sm-offset-1 col-sm-10" id="comments">
+	<div class="list" id="list">
+		<script id="list-content" type="text/x-dot-template">
+				{{~it:item:index}}
+				<div class="item" data-id="{{= item.id}}">
+					<div class="info">
+						<img class="headpic" src="{{= item.img}}" />
+						<span class="name">{{= item.name}}</span>
+						<span class="date">{{= item.date}}</span>
+					</div>
+					<div class="content">
+						<span class="question">{{= item.question}}</span>
+						<span class="answer"><span>{{= item.answer}}</span></span>
+					</div>
+				</div>
+				{{~}}
+			</script>
 
-    </div>
-    <div class="col-sm-offset-2">
-        <ul class="pagination">
-            <li><a id="page-before" href="#!">&laquo;</a></li>
-            <c:forEach begin="1" end="${pageCount}" var="v" >
-                <li><a class="pages" href="#!">${v}</a></li>
-            </c:forEach>
-            <li><a id="page-after" href="#!">&raquo;</a></li>
-        </ul>
-    </div>
-</div>
-<script>
-    //闭包循环为分页标签添加监听事件
-    var pages = document.getElementsByClassName('pages');
-    for (var i = 0; i < pages.length; i++) {
-        (function(i){
-            pages[i].onclick = function(){
-                getjson(i+1);
-            }
-        })(i);
-    }
-    var pagebefore = document.getElementById("page-before");
-    var pageafter = document.getElementById("page-after");
-    var currentpage = 1;
-    //上一页添加监听
-    pagebefore.onclick = function(){
-        if(currentpage != 1)
-            currentpage = currentpage - 1;
-        getjson(currentpage);
-    }
-    //下一页添加监听
-    pageafter.onclick = function(){
-        if(currentpage != ${pageCount})
-            currentpage = currentpage + 1;
-        getjson(currentpage);
-    }
-</script>
-<!-- 获取json分页的js -->
-<script src="${pageContext.request.contextPath}/static/pagejson.js"></script>
+		<div id="pages" class="pages">
+			<button class="prev">上一页</button>
+			<span class="page-number"><span class="curr">1</span> <span class="total-page">1</span></span>
+			<button class="next">下一页</button>
+		</div>
+	</div>
+
+	<div class="foot">
+		<span class="line"></span>
+		<div class="links">
+			<a href="">最新活动</a>
+			<a href="">客户案例</a>
+			<a href="">在线娱乐</a>
+			<a href="">联系我们</a>
+			<a href="">官方活动</a>
+		</div>
+		<span class="company">北京项越兄弟智能工程技术有限公司</span>
+	</div>
+
+	<div class="edit-view" id="edit-view">
+		<div class="panel">
+		<form method="post">
+			<textarea id="textarea" autocomplete="off" name="content"></textarea>
+			<span class="placeholder">发布新内容</span>
+			<button type="button" class="btn cancel-btn">取消</button>
+			<button type="button" class="btn submit-btn">发布</button>
+		 </form>		
+		</div>
+	</div>
+
+	<div class="loadjs">
+		<script src="${pageContext.request.contextPath}/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="${pageContext.request.contextPath}/js/dot.js" type="text/javascript" charset="utf-8"></script>
+		<script src="${pageContext.request.contextPath}/js/main.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			window.localStorage.removeItem("pid");
+			window.localStorage.removeItem("pname");
+		</script>
+	</div>
 </body>
 </html>
