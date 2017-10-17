@@ -71,7 +71,6 @@ $(window).ready(function() {
 			success: function(data) {
 				totalCount = data.totalCount;
 				totalPage = data.totalPage;
-
 				list = [];
 				for (var i = 0; i < data.object.length; i++) {
 					var a = data.object[i];
@@ -107,6 +106,10 @@ $(window).ready(function() {
 					window.localStorage.setItem("pname", name)
 					window.open('detail', '_self');
 				});
+				if (totalCount<=5) {
+					$('.prev').addClass('disable');
+					$('.next').addClass('disable');
+				}
 			},
 			error: function(data) {
 				console.log(data)
@@ -141,6 +144,15 @@ $(window).ready(function() {
 	
 	var pageIndex = location.hash.replace('#page=', '');
 	pageIndex = pageIndex ? pageIndex : 1;
+
+	if(pageIndex == 1) {
+		$('.prev').addClass('disable');
+	}
+
+	if(pageIndex == totalPage) {
+		$('.next').addClass('disable');
+	}
+
 
 	$('.pages .curr').text(pageIndex);
 	$('.pages .total-page').text(totalPage);
