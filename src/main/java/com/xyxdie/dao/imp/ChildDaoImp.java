@@ -31,7 +31,7 @@ public class ChildDaoImp extends BaseDaoImp<Child> implements ChildDao {
     public List<ChildJsonBean> findAllChild(int pid){
         String hql = "select new com.xyxdie.vo.ChildJsonBean(" +
                 "u.id,  m.pid, u.name, m.ip, m.date, m.message, u.imgUrl, u.type) " +
-                "from User u, Child m where m.userid = u.id and m.pid = "+ pid + " Order by m.id asc ";
+                "from User u, Child m where m.userid = u.id and m.pid = "+ pid + " Order by m.id desc ";
         List<ChildJsonBean> list = (List<ChildJsonBean>) getHibernateTemplate().find(hql);
         return list;
     }
