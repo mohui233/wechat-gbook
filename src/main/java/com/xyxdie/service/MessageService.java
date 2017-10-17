@@ -29,4 +29,6 @@ public interface MessageService {
 
 	List<MessageJsonBean> findMessageBySingle(int pageNo, int pageSize, int userid);
 
+	List<MessageJsonBean> findMessageJsonBeanById(int id);
+
 }
