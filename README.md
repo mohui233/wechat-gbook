@@ -1,8 +1,12 @@
 ###springMVC + Hibernate + bootstrap + ajax开发的留言管理系统
-##演示站[http://java.xyxdie.com/gbook](http://java.xyxdie.com/gbook)
-    [用户登录](http://java.xyxdie.com/gbook/user/login) 用户帐号：849528477@qq.com  密码：123456
+##演示站[http://192.168.1.4/gbook](http://192.168.1.4/gbook)
+
+    [用户登录](http://192.168.1.4/gbook/user/login) 用户帐号：wangzj@outlook.com  密码：12345678
     
-    [管理员登录](http://java.xyxdie.com/gbook/admin/login) 管理员帐号： 1327342025@qq.com 密码：123456
+    [用户注册](http://192.168.1.4/gbook/user/register) 
+
+    [管理员登录](http://192.168.1.4/gbook/admin/login) 管理员帐号： 1327342025@qq.com 密码：12345678
+    
 ##功能介绍：
 - 系统分为2个角色，用户和管理员。
 - 用户 ：未注册用户可以观看所有留言，但是提交留言需要注册登录，登录后可以修改个人信息：邮箱，用户名，头像和密码。
