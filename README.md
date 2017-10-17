@@ -1,11 +1,11 @@
 ###springMVC + Hibernate + bootstrap + ajax开发的留言管理系统
 ##演示站[http://192.168.1.4/gbook](http://192.168.1.4/gbook)
 
-    [用户登录](http://192.168.1.4/gbook/user/login) 用户帐号：wangzj@outlook.com  密码：12345678
+    [用户登录] (http://192.168.1.4/gbook/user/login) 用户帐号：wangzj@outlook.com  密码：12345678
     
-    [用户注册](http://192.168.1.4/gbook/user/register) 
+    [用户注册] (http://192.168.1.4/gbook/user/register) 
 
-    [管理员登录](http://192.168.1.4/gbook/admin/login) 管理员帐号： 1327342025@qq.com 密码：12345678
+    [管理员登录] (http://192.168.1.4/gbook/admin/login) 管理员帐号： 1327342025@qq.com 密码：12345678
     
 ##功能介绍：
 - 系统分为2个角色，用户和管理员。
