@@ -393,7 +393,7 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/user/edit-{id}", method = {RequestMethod.POST, RequestMethod.HEAD})
-	public String edit(@Valid User user,@Valid int id, BindingResult result){
+	public String edit(@Valid User user, @PathVariable int id, BindingResult result){
 		validate.updateValidate(user, id, result);
 		if(result.hasErrors()){
 			return "user/edit";
