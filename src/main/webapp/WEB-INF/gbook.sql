@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50173
 File Encoding         : 65001
 
-Date: 2017-10-17 10:32:41
+Date: 2017-10-20 02:29:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -27,7 +27,7 @@ CREATE TABLE `child` (
   `ip` varchar(20) DEFAULT NULL,
   `pid` int(11) DEFAULT NULL COMMENT '父内容id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of child
@@ -47,6 +47,10 @@ INSERT INTO `child` VALUES ('33', '1', '老得劲了', '2017-10-16 16:45:17', '1
 INSERT INTO `child` VALUES ('38', '8', '双击666', '2017-10-17 10:11:28', '192.168.1.4', '52');
 INSERT INTO `child` VALUES ('39', '8', '啊啊啊', '2017-10-17 10:11:41', '192.168.1.4', '52');
 INSERT INTO `child` VALUES ('40', '1', '没毛病', '2017-10-17 10:11:58', '192.168.1.4', '52');
+INSERT INTO `child` VALUES ('42', '1', '啊', '2017-10-17 10:50:16', '192.168.1.4', '52');
+INSERT INTO `child` VALUES ('43', '2', '啊啊啊啊啊啊啊', '2017-10-17 10:51:02', '192.168.1.4', '52');
+INSERT INTO `child` VALUES ('45', '25', '嘻嘻嘻', '2017-10-20 01:43:03', '192.168.1.2', '288');
+INSERT INTO `child` VALUES ('46', '25', '啊', '2017-10-20 01:46:06', '192.168.1.2', '288');
 
 -- ----------------------------
 -- Table structure for message
@@ -62,7 +66,7 @@ CREATE TABLE `message` (
   PRIMARY KEY (`id`),
   KEY `userid` (`userid`),
   CONSTRAINT `message_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=282 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=290 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of message
@@ -82,6 +86,10 @@ INSERT INTO `message` VALUES ('49', '10', '抽刀断水水更流，举杯消愁�
 INSERT INTO `message` VALUES ('50', '2', '两岸青山相对出，孤帆一片日边来。', '2016-10-12 12:42:18', '0:0:0:0:0:0:0:1', '0');
 INSERT INTO `message` VALUES ('51', '1', '相看两不厌，只有敬亭山。', '2016-10-12 12:42:36', '0:0:0:0:0:0:0:1', '0');
 INSERT INTO `message` VALUES ('52', '8', '我寄愁心与明月，随风直到夜郎西。', '2016-10-12 12:42:57', '0:0:0:0:0:0:0:1', '0');
+INSERT INTO `message` VALUES ('286', '25', '啊啊', '2017-10-20 00:55:40', '192.168.1.2', '0');
+INSERT INTO `message` VALUES ('287', '25', '小心', '2017-10-20 01:03:49', '192.168.1.2', '0');
+INSERT INTO `message` VALUES ('288', '25', '啊啊啊', '2017-10-20 01:42:41', '192.168.1.2', '0');
+INSERT INTO `message` VALUES ('289', '25', '哈哈哈哈哈哈', '2017-10-20 02:07:28', '192.168.1.2', '0');
 
 -- ----------------------------
 -- Table structure for user
@@ -91,19 +99,18 @@ CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` int(11) DEFAULT NULL,
   `name` char(200) DEFAULT NULL,
-  `email` char(200) DEFAULT NULL,
   `passwd` char(200) DEFAULT NULL,
   `imgurl` char(200) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', '2', '项越兄弟', '1327342025@qq.com', '12345678', 'nopic.jpg');
-INSERT INTO `user` VALUES ('2', '1', '林声声', 'wangzj@outlook.com', '12345678', 'nopic.jpg');
-INSERT INTO `user` VALUES ('8', '1', '是以彤啊', 'wangzj@gmail.com', '12345678', 'nopic.jpg');
-INSERT INTO `user` VALUES ('9', '1', '浑沌七日死', 'wangzj@163.com', '12345678', 'nopic.jpg');
-INSERT INTO `user` VALUES ('10', '1', '喵了个咪', 'wangzj@qq.com', '12345678', 'nopic.jpg');
-INSERT INTO `user` VALUES ('11', '1', '是朕', 'wangzj@admin.com', '12345678', 'nopic.jpg');
+INSERT INTO `user` VALUES ('1', '2', '项越兄弟', '12345678', 'upload/nopic.jpg');
+INSERT INTO `user` VALUES ('2', '1', '林声声', '12345678', 'upload/nopic.jpg');
+INSERT INTO `user` VALUES ('8', '1', '是以彤啊', '12345678', 'upload/nopic.jpg');
+INSERT INTO `user` VALUES ('9', '1', '浑沌七日死', '12345678', 'upload/nopic.jpg');
+INSERT INTO `user` VALUES ('10', '1', '喵了个咪', '12345678', 'upload/nopic.jpg');
+INSERT INTO `user` VALUES ('11', '1', '是朕', '12345678', 'upload/nopic.jpg');
+INSERT INTO `user` VALUES ('25', '1', '默会', 'o6j4w0wSwgMknXSBJ6-atD6ihxho', 'http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLZ1diafCBQt2zFBvj4EfmsFEDwEwHzbBAyWSrH7wnKlz1tnr3h2Hh1EdMegqF2SOLB07icysQFqLqA/0');
