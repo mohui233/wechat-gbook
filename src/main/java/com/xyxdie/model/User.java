@@ -21,10 +21,6 @@ public class User {
     private String name;
 
     @NotEmpty
-    @Column(name = "EMAIL", nullable = false)
-    private String email;
-
-    @NotEmpty
     @Column(name = "PASSWD", nullable = false)
     private String passwd;
 
@@ -33,17 +29,15 @@ public class User {
 
     public User(){}
 
-    public User(int id, String name, String email, String passwd){
+    public User(int id, String name, String passwd){
         this.name = name;
         this.id = id;
-        this.email = email;
         this.passwd = passwd;
     }
 
-    public User(int id, String name, String email, String passwd, int type){
+    public User(int id, String name, String passwd, int type){
         this.name = name;
         this.id = id;
-        this.email = email;
         this.passwd = passwd;
         this.type = type;
     }
@@ -68,14 +62,6 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPasswd() {

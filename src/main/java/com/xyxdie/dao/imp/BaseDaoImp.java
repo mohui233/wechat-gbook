@@ -1,6 +1,5 @@
 package com.xyxdie.dao.imp;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -11,9 +10,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.xyxdie.dao.BaseDao;
-import com.xyxdie.vo.MessageJsonBean;
 
 @Transactional
 public  class BaseDaoImp<T> extends HibernateDaoSupport implements BaseDao<T> {

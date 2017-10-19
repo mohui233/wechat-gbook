@@ -14,7 +14,6 @@ import java.util.List;
 @Repository
 public class MessageDaoImp extends BaseDaoImp<Message> implements MessageDao {
 
-    @SuppressWarnings("unchecked")
     public List<Message> findMessagesByUserId(int id){
         String hql = "from Message m where m.userid = "+ id +
                 "Order by m.id desc";
@@ -22,7 +21,6 @@ public class MessageDaoImp extends BaseDaoImp<Message> implements MessageDao {
         return find(hql);
     }
 
-    @SuppressWarnings("unchecked")
     public Message findMessageById(int id){
         return get(Message.class, id);
     }
@@ -72,9 +70,7 @@ public class MessageDaoImp extends BaseDaoImp<Message> implements MessageDao {
 
         List<MessageJsonBean> list = (List<MessageJsonBean>) getHibernateTemplate().execute(new HibernateCallback<List<MessageJsonBean>>() {
 
-            @SuppressWarnings("unchecked")
             public List<MessageJsonBean> doInHibernate(Session session) throws HibernateException {
-                // TODO Auto-generated method stub
                 List<MessageJsonBean> result = session.createQuery(hql).setFirstResult((pageNo-1)*pageSize).setMaxResults(pageSize).list();
                 return result;
             }
@@ -93,7 +89,6 @@ public class MessageDaoImp extends BaseDaoImp<Message> implements MessageDao {
 
             @SuppressWarnings("unchecked")
             public List<MessageJsonBean> doInHibernate(Session session) throws HibernateException {
-                // TODO Auto-generated method stub
                 List<MessageJsonBean> result = session.createQuery(hql).setFirstResult((pageNo-1)*pageSize).setMaxResults(pageSize).list();
                 return result;
             }

@@ -14,7 +14,6 @@ import java.util.List;
 @Repository
 public class ChildDaoImp extends BaseDaoImp<Child> implements ChildDao {
 
-    @SuppressWarnings("unchecked")
     public List<Child> findChildsByUserId(int id){
         String hql = "from Child m where m.userid = "+ id +
                 "Order by m.id desc";
@@ -22,7 +21,6 @@ public class ChildDaoImp extends BaseDaoImp<Child> implements ChildDao {
         return find(hql);
     }
 
-    @SuppressWarnings("unchecked")
     public Child findChildById(int id){
         return get(Child.class, id);
     }
@@ -63,7 +61,6 @@ public class ChildDaoImp extends BaseDaoImp<Child> implements ChildDao {
 
         List<ChildJsonBean> list = (List<ChildJsonBean>) getHibernateTemplate().execute(new HibernateCallback<List<ChildJsonBean>>() {
 
-            @SuppressWarnings("unchecked")
             public List<ChildJsonBean> doInHibernate(Session session) throws HibernateException {
                 // TODO Auto-generated method stub
                 List<ChildJsonBean> result = session.createQuery(hql).setFirstResult((pageNo-1)*pageSize).setMaxResults(pageSize).list();

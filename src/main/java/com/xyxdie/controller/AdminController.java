@@ -81,8 +81,6 @@ public class AdminController {
     @RequestMapping(value = {"admin/login"},method = {RequestMethod.POST, RequestMethod.HEAD})
     public String login(@Valid User user, BindingResult result,
                         HttpSession session, Model model){
-        //验证
-        validate.adminLoginValidate(user, result);
         if(result.hasErrors()){
             return "admin/login";
         }
@@ -156,13 +154,10 @@ public class AdminController {
     @RequestMapping(value = "admin/edit-{id}", method = {RequestMethod.POST, RequestMethod.HEAD})
     public String editUser(@Valid User user, @PathVariable int id,
                            BindingResult result, Model model){
-        //验证输入格式
-        validate.updateValidate(user, id, result);
         if(result.hasErrors()){
             return "admin/edit";
         }
         User sqlUser = userService.findById(id);
-        sqlUser.setEmail(user.getEmail());
         sqlUser.setName(user.getName());
         sqlUser.setPasswd(user.getPasswd());
         userService.updateUser(sqlUser);

@@ -1,60 +1,65 @@
 package com.xyxdie.dao.imp;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
-import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.stereotype.Repository;
-
 import com.xyxdie.dao.UserDao;
 import com.xyxdie.model.User;
-import com.xyxdie.vo.MessageJsonBean;
-
 import java.util.List;
 
 @Repository("UserDao")
 public class UserDaoImp extends BaseDaoImp<User>  implements UserDao {
 
-    public User findById(int id){
-        return get(User.class, id);
+	public User findById(int id){
+		return get(User.class, id);
 
-    }
+	}
 
-    public List<User> findByName(String name){
-        String hql = "from User where name =?";
-        return find(hql, name);
+	public List<User> findByName(String name){
+		String hql = "from User where name =?";
+		return find(hql, name);
 
-    }
+	}
 
-    public List<User> findByEmail(String email){
-        String hql = "from User where email =?";
-        return find(hql , email);
-    }
+	public void saveUser(User user){
+		getHibernateTemplate().save(user);
+	}
 
-    public void saveUser(User user){
-        getHibernateTemplate().save(user);
-    }
+	public void updateUser(User user){
+		getHibernateTemplate().update(user);
+	}
 
-    public void updateUser(User user){
-        getHibernateTemplate().update(user);
-    }
+	public void deleteUser(User user){
+		getHibernateTemplate().delete(user);
+	}
 
-    public void deleteUser(User user){
-        getHibernateTemplate().delete(user);
-    }
+	public Long findUserCount(){
+		String hql = "select count(*) from User as user";
+		return (Long)getHibernateTemplate().find(hql).listIterator().next();
+	}
 
-    public Long findUserCount(){
-        String hql = "select count(*) from User as user";
-        return (Long)getHibernateTemplate().find(hql).listIterator().next();
-    }
+	public Long findUserCount(String str) {
+		String hql = "select count(*) from User as a where a.passwd = '"+str+"'";
+		Long a = (Long)getHibernateTemplate().find(hql).listIterator().next();
+		return a;
+	}
 
-    public List<User> findAllUser(){
-        DetachedCriteria criteria = DetachedCriteria.forClass(User.class);
-        return (List<User>) getHibernateTemplate().findByCriteria(criteria);
-    }
+	@SuppressWarnings("unchecked")
+	public List<User> findAllUser(){
+		DetachedCriteria criteria = DetachedCriteria.forClass(User.class);
+		return (List<User>) getHibernateTemplate().findByCriteria(criteria);
+	}
 
-    public List<User> findUserByPage(int pageNo, int pageSize){
-        String hql = "from User";
-        return findByPage(hql, pageNo, pageSize);
-    }
+	public List<User> findUserByPage(int pageNo, int pageSize){
+		String hql = "from User";
+		return findByPage(hql, pageNo, pageSize);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> findUserByPage(String str) {
+		String hql = "from User as a where a.passwd = '"+str+"'";
+        List<User> list = (List<User>) getHibernateTemplate().find(hql);
+        return list;
+	}
+
 }

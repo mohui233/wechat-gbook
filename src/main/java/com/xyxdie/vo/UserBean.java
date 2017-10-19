@@ -8,25 +8,21 @@ public class UserBean {
 
     private String name;
 
-    private String email;
-
     private String passwd;
 
     private String imgUrl;
 
     public UserBean(){}
 
-    public UserBean(int id, String name, String email, String passwd){
+    public UserBean(int id, String name, String passwd){
         this.name = name;
         this.id = id;
-        this.email = email;
         this.passwd = passwd;
     }
 
-    public UserBean(int id, String name, String email, String passwd, int type){
+    public UserBean(int id, String name, String passwd, int type){
         this.name = name;
         this.id = id;
-        this.email = email;
         this.passwd = passwd;
         this.type = type;
     }
@@ -51,14 +47,6 @@ public class UserBean {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPasswd() {
