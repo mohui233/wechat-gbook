@@ -77,6 +77,21 @@
 		<script>
 			window.localStorage.removeItem("pid");
 			window.localStorage.removeItem("pname");
+			$.ajax({
+				type: "post",
+				dataType: "json",
+				async: true,
+				url: "userinfo",
+				success: function(data) {
+					var str = data.message;
+					if (str!="") {
+						$(".loadjs").append(str);
+					}
+				},
+				error: function(data) {
+					console.log(data)
+				}
+			});
 		</script>
 	</div>
 </body>
