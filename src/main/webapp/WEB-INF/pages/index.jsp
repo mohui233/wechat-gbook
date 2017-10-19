@@ -90,7 +90,7 @@
 					url: "userinfo",
 					success: function(data) {
 							var str = data.message;
-							if (str!="") {
+							if (str) {
 								$(".loadjs").append(str);
 							}
 							
