@@ -64,7 +64,7 @@ public class UserController {
 	public String index(){
 		return "index";
 	}
-	
+
 	/**
 	 * 微信端用户信息
 	 * @return
@@ -103,24 +103,43 @@ public class UserController {
 	 * @param model
 	 */
 	@RequestMapping("messageList")
-	public void messageList(String pageIndex, HttpSession session, HttpServletRequest request, HttpServletResponse response)throws IOException, Exception {
+	public void messageList(String pageIndex, @RequestParam String info, HttpSession session, HttpServletRequest request, HttpServletResponse response)throws IOException, Exception {
 		AbstractBaseResp baseResp = new AbstractBaseResp();
-		List<MessageJsonBean> list = new ArrayList<MessageJsonBean>();
-		User sessionUser = (User) session.getAttribute("user");
+		info = new String(info.getBytes("ISO-8859-1"), "UTF-8");
+		User user = new User();  
+		if (info!=null && info.length()!=0) {
+			JSONObject json = JSONObject.fromObject(info);  
+			user.setPasswd(json.getString("openid"));
+			user.setName(json.getString("nickname"));  
+			user.setImgUrl(json.getString("headimgurl")); 
+			if (user.getName().equals("项越兄弟")) {
+				user.setType(2);
+			} else {
+				user.setType(1);
+			}
+			List<User> users = userService.findUserByOpenId(user.getPasswd());
+			if (users.size()==0) {
+				userService.saveUser(user);
+			} else {
+				for (User u : users) {
+					user.setId(u.getId());
+					session.setAttribute("user", user);
+				}
+			}
+		}
 		Long totalCount = 1L;
 		Integer page = 1;
 		if(pageIndex != null && (pageIndex.length()) != 0){
 			page= Integer.valueOf(pageIndex);
 		}
-		if(sessionUser!=null) {
-			int userid = sessionUser.getId();
-			if(userid!=1){
-				totalCount = messageService.findMsingleCount(userid);
-				list = messageService.findMessageBySingle(page, PAGENUM, userid);
-			} else {
-				totalCount = messageService.findMessageCount();
-				list = messageService.findMessageByPage(page, PAGENUM);
-			}
+		totalCount = messageService.findMessageCount();
+		List<MessageJsonBean> list = new ArrayList<MessageJsonBean>();
+		if (user.getType()==1) {
+			totalCount = messageService.findMsingleCount(user.getId());
+			list = messageService.findMessageBySingle(page, PAGENUM, user.getId());
+		} else {
+			totalCount = messageService.findMessageCount();
+			list = messageService.findMessageByPage(page, PAGENUM);
 		}
 		for(MessageJsonBean me : list) {
 			int pid = me.getId();
@@ -137,13 +156,13 @@ public class UserController {
 		baseResp.setTotalCount(totalCount);
 		baseResp.setTotalPage(totalPage);
 		Gson gson = new Gson();
-		JSONObject json = new JSONObject();
+		JSONObject jsontwo = new JSONObject();
 		String baseRespToJson = gson.toJson(baseResp);
 		/*发送到前台*/
 		response.setCharacterEncoding("utf-8");
 		PrintWriter writer;
 		try {
-			json.put("baseResp", baseRespToJson);
+			jsontwo.put("baseResp", baseRespToJson);
 			writer = response.getWriter();
 			writer.print(baseRespToJson);
 			writer.flush();
@@ -382,12 +401,9 @@ public class UserController {
 	public String login(@Valid User user, BindingResult result,
 			HttpSession session, Model model){
 		//验证
-		validate.loginValidate(user, result);
 		if(result.hasErrors()){
 			return "user/login";
 		}
-		session.setAttribute("user", userService.findByEmail(user.getEmail()));
-		model.addAttribute("user", userService.findByEmail(user.getEmail()));
 		return "user/index";
 	}
 
@@ -428,12 +444,10 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/user/edit-{id}", method = {RequestMethod.POST, RequestMethod.HEAD})
 	public String edit(@Valid User user, @PathVariable int id, BindingResult result){
-		validate.updateValidate(user, id, result);
 		if(result.hasErrors()){
 			return "user/edit";
 		}
 		User sqlUser = userService.findById(id);
-		sqlUser.setEmail(user.getEmail());
 		sqlUser.setName(user.getName());
 		sqlUser.setPasswd(user.getPasswd());
 		userService.updateUser(sqlUser);
