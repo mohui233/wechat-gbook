@@ -27,7 +27,6 @@
                 <td>img</td>
                 <td>${user.id}</td>
                 <td>${user.name} </td>
-                <td>${user.email} </td>
                 <td><button type="button" class="btn btn-info" onclick="edit('${pageContext.request.contextPath}/admin/message-${user.id}')">查看留言</button></td>
                 <td><button type="button" class="btn btn-warning" onclick="edit('${pageContext.request.contextPath}/admin/edit-${user.id}')">编辑用户</button></td>
                 <td><button type="button" class="btn btn-danger" onclick="edit('${pageContext.request.contextPath}/admin/delete-${user.id}')">删除用户</button></td>

@@ -75,13 +75,16 @@
 		<script src="${pageContext.request.contextPath}/js/dot.js" type="text/javascript" charset="utf-8"></script>
 		<script src="${pageContext.request.contextPath}/js/main.js" type="text/javascript" charset="utf-8"></script>
 		<script>
-	        //获取url中的参数
+			window.localStorage.removeItem("pid");
+			window.localStorage.removeItem("pname");
+ 	        //获取url中的参数
 	        function getUrlParam(name) {
 	            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
 	            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
 	            if (r != null) return unescape(r[2]); return null; //返回参数值
 	        }
 			var info = getUrlParam('info');
+			$(window).ready(function() {
 			if (info==null){
 				$.ajax({
 					type: "post",
@@ -99,9 +102,13 @@
 						console.log(data)
 					}
 				});
-			}
-			window.localStorage.removeItem("pid");
-			window.localStorage.removeItem("pname");
+				} else {
+					var data = {
+							info : info
+					};
+					load_data(data);
+				}
+			}); 
 		</script>
 	</div>
 </body>

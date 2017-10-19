@@ -22,13 +22,6 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-sm-2 control-label">email:</label>
-        <div class="col-sm-4">
-            <form:input path="email" id="email"/>
-            <form:errors path="email"/>
-        </div>
-    </div>
-    <div class="form-group">
         <label class="col-sm-2 control-label">passwd:</label>
         <div class="col-sm-4">
             <form:input path="passwd" id="passwd"/>

@@ -34,9 +34,6 @@
                 <div>用户名：${user.name}</div>
             </div>
             <div class="user-right-row">
-                <div>用户邮箱：${user.email}</div>
-            </div>
-            <div class="user-right-row">
                 <div>用户密码：${user.passwd}</div>
             </div>
             <div class="col-sm-offset-2">
