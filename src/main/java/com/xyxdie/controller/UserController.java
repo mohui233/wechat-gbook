@@ -88,11 +88,11 @@ public class UserController {
 	 * @param model
 	 */
 	@RequestMapping("messageList")
-	public void messageList(String pageIndex, @RequestParam String info, HttpSession session, HttpServletRequest request, HttpServletResponse response)throws IOException, Exception {
+	public String messageList(String pageIndex, String info, HttpSession session, HttpServletRequest request, HttpServletResponse response)throws IOException, Exception {
 		AbstractBaseResp baseResp = new AbstractBaseResp();
-		info = new String(info.getBytes("ISO-8859-1"), "UTF-8");
 		User user = new User();  
 		if (info!=null && info.length()!=0) {
+			info = new String(info.getBytes("ISO-8859-1"), "UTF-8");
 			JSONObject json = JSONObject.fromObject(info);  
 			user.setPasswd(json.getString("openid"));
 			user.setName(json.getString("nickname"));  
@@ -155,6 +155,7 @@ public class UserController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return "index";
 	}
 
 	/**
