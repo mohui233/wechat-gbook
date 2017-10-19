@@ -82,7 +82,7 @@
 								$(".list").prepend(
 									"<div class='item self'>" +
 									"<div class='info'>" +
-									"<img class='headpic' src="+'upload/'+a.imgUrl+" />" + 
+									"<img class='headpic' src="+a.imgUrl+" />" + 
 									"<span class='name'> "+a.name+" </span>" + 
 									"<span class='date'>"+a.date+"</span>" +
 									"</div>" + 

@@ -22,13 +22,6 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-offset-2 col-sm-2 control-label">邮箱</label>
-                <div class="col-sm-4">
-                    <form:input path="email" id="email"/>
-                    <form:errors path="email"/>
-                </div>
-            </div>
-            <div class="form-group">
                 <label class="col-sm-offset-2 col-sm-2 control-label">密码</label>
                 <div class="col-sm-4">
                     <form:password path="passwd" id="passwd"/>

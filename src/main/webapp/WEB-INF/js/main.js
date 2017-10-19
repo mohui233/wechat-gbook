@@ -1,3 +1,4 @@
+var load_data;
 $(window).ready(function() {
 
 	// 所有页面
@@ -61,7 +62,7 @@ $(window).ready(function() {
 	var data = {};
 	var totalCount = "";
 	var totalPage = "";
-	var load_data = function(data) {
+	load_data = function(data) {
 		$.ajax({
 			type: "post",
 			dataType: "json",
@@ -84,7 +85,7 @@ $(window).ready(function() {
 							id: a.id,
 							name: a.name,
 							date: a.date,
-							img: 'upload/' + a.imgUrl,
+							img:  a.imgUrl,
 							question: a.message,
 							answer: answer
 					};
