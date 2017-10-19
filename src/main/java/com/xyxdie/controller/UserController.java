@@ -70,7 +70,7 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping("/userinfo")
-	public String index(HttpServletRequest request, HttpServletResponse response)throws IOException, Exception {
+	public void index(HttpServletRequest request, HttpServletResponse response)throws IOException, Exception {
 		AbstractBaseResp baseResp = new AbstractBaseResp();
 		String url = "http://xyx.hnzmh.com/wx_share.php?act=info";
 		String str = "";
@@ -95,7 +95,6 @@ public class UserController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return "index";
 	}
 
 	/**
@@ -183,7 +182,7 @@ public class UserController {
 	 * @throws Exception
 	 */
 	@RequestMapping("saveMessage")
-	public String saveMessage(Integer pid, String content, HttpSession session, HttpServletRequest request, 
+	public void saveMessage(Integer pid, String content, HttpSession session, HttpServletRequest request, 
 			HttpServletResponse response)throws IOException, Exception {
 		AbstractBaseResp baseResp = new AbstractBaseResp();
 		User sessionUser = (User) session.getAttribute("user");
@@ -224,7 +223,6 @@ public class UserController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return "index";
 	}
 
 	/**
