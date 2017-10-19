@@ -61,6 +61,7 @@
 			<script>
 				$(".goback").click(function(){
 					history.go(-1);
+					history.go(-1);
 				});				
 				var pname = window.localStorage.getItem("pname");
 				if (pname==null){
