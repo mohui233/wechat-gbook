@@ -82,7 +82,7 @@
 	            if (r != null) return unescape(r[2]); return null; //返回参数值
 	        }
 			var info = getUrlParam('info');
-			if (info){
+			if (info==null){
 				$.ajax({
 					type: "post",
 					dataType: "json",
