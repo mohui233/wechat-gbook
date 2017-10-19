@@ -1,4 +1,3 @@
-var load_data;
 $(window).ready(function() {
 
 	// 所有页面
@@ -62,8 +61,7 @@ $(window).ready(function() {
 	var data = {};
 	var totalCount = "";
 	var totalPage = "";
-	load_data = function(data) {
-		if (data.info) {
+	var load_data = function(data) {
 			$.ajax({
 				type: "post",
 				dataType: "json",
@@ -117,7 +115,6 @@ $(window).ready(function() {
 					console.log(data)
 				}
 			})
-		}
 	}
 	
 	/*提交*/
@@ -160,8 +157,11 @@ $(window).ready(function() {
 	$('.pages .curr').text(pageIndex);
 	$('.pages .total-page').text(totalPage);
 	
+	var info = window.localStorage.getItem("info");
+
 	data = {
-		pageIndex :	pageIndex
+		pageIndex :	pageIndex,
+		info : info
 	};
 	
 	/*加载分页数据*/
@@ -185,7 +185,8 @@ $(window).ready(function() {
 			$('.pages .curr').text(pageIndex);
 			$('.next').removeClass('disable');
 			data = {
-					pageIndex :	pageIndex
+					pageIndex :	pageIndex,
+					info : info
 			};
 			load_data(data);
 		}
@@ -209,7 +210,8 @@ $(window).ready(function() {
 			$('.pages .curr').text(pageIndex);
 			$('.prev').removeClass('disable');
 			data = {
-					pageIndex :	pageIndex
+					pageIndex :	pageIndex,
+					info : info
 			};
 			load_data(data);
 		}
