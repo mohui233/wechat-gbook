@@ -108,7 +108,7 @@ $(window).ready(function() {
 						window.localStorage.setItem("pname", name)
 						window.open('detail', '_self');
 					});
-					if (totalCount<=5) {
+					if (totalCount<=3) {
 						$('.prev').addClass('disable');
 						$('.next').addClass('disable');
 					}
