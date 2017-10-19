@@ -26,7 +26,7 @@
 		<div class="list">
 			<div class="btns">
 				<button class="btn reply-btn">回复</button>
-				<a class="goback" href="/">返回首页</a>
+				<a class="goback">返回首页</a>
 			</div>
 		</div>
 
@@ -59,6 +59,9 @@
 			<script src="${pageContext.request.contextPath}/js/dot.js" type="text/javascript" charset="utf-8"></script>
 			<script src="${pageContext.request.contextPath}/js/main.js" type="text/javascript" charset="utf-8"></script>
 			<script>
+				$(".goback").click(function(){
+					history.go(-1);
+				});				
 				var pname = window.localStorage.getItem("pname");
 				if (pname==null){
 					pname = "用户";
