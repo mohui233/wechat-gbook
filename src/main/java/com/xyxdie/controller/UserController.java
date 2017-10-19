@@ -15,6 +15,7 @@ import com.xyxdie.service.ChildService;
 import com.xyxdie.service.MessageService;
 import com.xyxdie.service.UserService;
 import com.xyxdie.util.AbstractBaseResp;
+import com.xyxdie.util.HttpClientUtils;
 import com.xyxdie.util.UploadImg;
 import com.xyxdie.util.Validate;
 import com.xyxdie.vo.ChildJsonBean;
@@ -61,6 +62,39 @@ public class UserController {
 	 */
 	@RequestMapping("/")
 	public String index(){
+		return "index";
+	}
+	
+	/**
+	 * 微信端用户信息
+	 * @return
+	 */
+	@RequestMapping("/userinfo")
+	public String index(HttpServletRequest request, HttpServletResponse response)throws IOException, Exception {
+		AbstractBaseResp baseResp = new AbstractBaseResp();
+		String url = "http://xyx.hnzmh.com/wx_share.php?act=info";
+		String str = "";
+		try {
+			str = HttpClientUtils.get(url, "UTF-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		baseResp.setMessage(str);
+		Gson gson = new Gson();
+		JSONObject json = new JSONObject();
+		String baseRespToJson = gson.toJson(baseResp);
+		/*发送到前台*/
+		response.setCharacterEncoding("utf-8");
+		PrintWriter writer;
+		try {
+			json.put("baseResp", baseRespToJson);
+			writer = response.getWriter();
+			writer.print(baseRespToJson);
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return "index";
 	}
 
