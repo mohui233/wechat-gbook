@@ -21,6 +21,12 @@
         <h1 class="col-sm-offset-4">管理员登录</h1>
         <form:form modelAttribute="user" method="post" class="form-horizontal" role="form">
             <div class="form-group">
+                <label class="col-sm-offset-2 col-sm-2 control-label">用户名</label>
+                <div class="col-sm-4">
+                    <form:input path="name" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-sm-offset-2 col-sm-2 control-label">密码</label>
                 <div class="col-sm-4">
                     <form:password path="passwd" class="form-control"/>
