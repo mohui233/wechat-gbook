@@ -84,7 +84,6 @@
 	            if (r != null) return unescape(r[2]); return null; //返回参数值
 	        }
 			var info = getUrlParam('info');
-			$(window).ready(function() {
 			if (info==null){
 				$.ajax({
 					type: "post",
@@ -103,12 +102,8 @@
 					}
 				});
 				} else {
-					var data = {
-							info : info
-					};
-					load_data(data);
+					window.localStorage.setItem("info", info)
 				}
-			}); 
 		</script>
 	</div>
 </body>
