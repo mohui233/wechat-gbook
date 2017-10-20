@@ -1,3 +1,4 @@
+var load_data;
 $(window).ready(function() {
 
 	// 所有页面
@@ -61,7 +62,7 @@ $(window).ready(function() {
 	var data = {};
 	var totalCount = "";
 	var totalPage = "";
-	var load_data = function(data) {
+	load_data = function(data) {
 		$.ajax({
 			type: "post",
 			dataType: "json",
@@ -153,21 +154,8 @@ $(window).ready(function() {
 		$('.next').addClass('disable');
 	}
 
-
 	$('.pages .curr').text(pageIndex);
 	$('.pages .total-page').text(totalPage);
-	
-	var info = window.localStorage.getItem("info");
-
-	data = {
-		pageIndex :	pageIndex,
-		info : info
-	};
-	
-	/*加载分页数据*/
-	if($('#list').length > 0) {
-		load_data(data);
-	}
 	
 	/*上一页*/
 	$('.prev').click(function() {
@@ -184,10 +172,17 @@ $(window).ready(function() {
 
 			$('.pages .curr').text(pageIndex);
 			$('.next').removeClass('disable');
+			
+			var info = window.localStorage.getItem("info");
+			var json = JSON.parse(info);
+			
 			data = {
 					pageIndex :	pageIndex,
-					info : info
+					openid: json.openid,
+					nickname: json.nickname,
+					headimgurl: json.headimgurl
 			};
+			
 			load_data(data);
 		}
 	});
@@ -209,10 +204,17 @@ $(window).ready(function() {
 
 			$('.pages .curr').text(pageIndex);
 			$('.prev').removeClass('disable');
+			
+			var info = window.localStorage.getItem("info");
+			var json = JSON.parse(info);
+
 			data = {
 					pageIndex :	pageIndex,
-					info : info
+					openid: json.openid,
+					nickname: json.nickname,
+					headimgurl: json.headimgurl
 			};
+			
 			load_data(data);
 		}
 	});
