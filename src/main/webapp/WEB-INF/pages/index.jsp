@@ -75,6 +75,7 @@
 		<script src="${pageContext.request.contextPath}/js/dot.js" type="text/javascript" charset="utf-8"></script>
 		<script src="${pageContext.request.contextPath}/js/main.js" type="text/javascript" charset="utf-8"></script>
 		<script>
+		$(window).ready(function() {
 			window.localStorage.removeItem("pid");
 			window.localStorage.removeItem("pname");
  	        //获取url中的参数
@@ -84,7 +85,7 @@
 	            if (r != null) return unescape(r[2]); return null; //返回参数值
 	        }
 			var info = getUrlParam('info');
-			if (info==null){
+			if (!info){
 				$.ajax({
 					type: "post",
 					dataType: "json",
@@ -102,8 +103,24 @@
 					}
 				});
 				} else {
-					window.localStorage.setItem("info", info)
-				}
+					localStorage.setItem("info", info);
+					var json = JSON.parse(info);
+					
+					var pageIndex = location.hash.replace('#page=', '');
+					pageIndex = pageIndex ? pageIndex : 1;
+					
+					/*加载分页数据*/
+					if($('#list').length > 0) {
+						var data = {
+								pageIndex :	pageIndex,
+								openid: json.openid,
+								nickname: json.nickname,
+								headimgurl: json.headimgurl
+						};
+						load_data(data);
+					}
+			}
+		});	
 		</script>
 	</div>
 </body>
