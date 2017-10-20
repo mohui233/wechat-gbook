@@ -67,7 +67,7 @@
 				if (pname==null){
 					pname = "用户";
 				}
-				$(".detail-page .head").append(
+				$(".detail-page .head").prepend(
 					"<h2>"+pname+" 的留言</h2>"
 				);
 				var pid = window.localStorage.getItem("pid");
