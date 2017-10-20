@@ -323,8 +323,7 @@ public class HttpClientUtils {
 
 	public static void main(String[] args) {
 		try {
-			// https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=SECRET
-			String url = "http://xyx.hnzmh.com/wx_share.php?act=info";
+			String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=SECRET";
 			String str = HttpClientUtils.get(url, "UTF-8");
 			System.out.println("=============");
 			System.out.println(str);

@@ -13,6 +13,7 @@ import com.xyxdie.service.MessageService;
 import com.xyxdie.service.UserService;
 import com.xyxdie.util.AbstractBaseResp;
 import com.xyxdie.util.HttpClientUtils;
+import com.xyxdie.util.Weixin;
 import com.xyxdie.vo.ChildJsonBean;
 import com.xyxdie.vo.MessageJsonBean;
 
@@ -56,16 +57,23 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping("/userinfo")
-	public void index(HttpServletRequest request, HttpServletResponse response)throws IOException, Exception {
+	public void index(String code, HttpServletRequest request, HttpServletResponse response)throws IOException, Exception {
 		AbstractBaseResp baseResp = new AbstractBaseResp();
-		String url = "http://xyx.hnzmh.com/wx_share.php?act=info";
-		String str = "";
+		Weixin wx = new Weixin();
 		try {
-			str = HttpClientUtils.get(url, "UTF-8");
+			String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx6aa1205fde028896&secret=17286f5eb8f40927c7936d7c63324f18&code="+code+"&grant_type=authorization_code";
+			String str = HttpClientUtils.get(url, "UTF-8");
+			if(str != null && str.length()!=0){
+				JSONObject jsStr = JSONObject.fromObject(str);
+				String accesstoken = jsStr.getString("access_token");
+				String openid = jsStr.getString("openid");
+				wx.setAccesstoken(accesstoken);
+				wx.setOpenid(openid);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		baseResp.setMessage(str);
+		baseResp.setObject(wx);
 		Gson gson = new Gson();
 		JSONObject json = new JSONObject();
 		String baseRespToJson = gson.toJson(baseResp);
@@ -88,57 +96,66 @@ public class UserController {
 	 * @param model
 	 */
 	@RequestMapping("messageList")
-	public String messageList(String pageIndex, String openid, String nickname, String headimgurl, HttpSession session, HttpServletRequest request, HttpServletResponse response)throws IOException, Exception {
+	public String messageList(String pageIndex, String openid, String accesstoken, HttpSession session, HttpServletRequest request, HttpServletResponse response)throws IOException, Exception {
 		AbstractBaseResp baseResp = new AbstractBaseResp();
-		User user = new User();  
-		if (openid!=null && openid.length()!=0) {
-			nickname = new String(nickname.getBytes("ISO-8859-1"), "UTF-8");
-			user.setPasswd(openid);
-			user.setName(nickname);  
-			user.setImgUrl(headimgurl); 
-			if (nickname.equals("项越兄弟")) {
-				user.setType(2);
-			} else {
-				user.setType(1);
-			}
-			List<User> users = userService.findUserByOpenId(openid);
-			if (users.size()==0) {
-				userService.saveUser(user);
-			} else {
-				for (User u : users) {
-					user.setId(u.getId());
-					session.setAttribute("user", user);
+		User user = new  User();
+		try {
+			String url = "https://api.weixin.qq.com/sns/userinfo?access_token="+accesstoken+"&openid="+openid+"&lang=zh_CN";
+			String str = HttpClientUtils.get(url, "UTF-8");
+			if(str != null && str.length()!=0){
+				JSONObject jsStr = JSONObject.fromObject(str);
+				String nickname = jsStr.getString("nickname");
+				String headimgurl = jsStr.getString("headimgurl");
+				nickname = new String(nickname.getBytes("ISO-8859-1"), "UTF-8");
+				user.setPasswd(openid);
+				user.setName(nickname);  
+				user.setImgUrl(headimgurl); 
+				if (openid.equals("xxxxx")) {
+					user.setType(2);
+				} else {
+					user.setType(1);
 				}
+				List<User> users = userService.findUserByOpenId(openid);
+				if (users.size()==0) {
+					userService.saveUser(user);
+				} else {
+					for (User u : users) {
+						user.setId(u.getId());
+						session.setAttribute("user", user);
+					}
+				}
+				Long totalCount = 1L;
+				Integer page = 1;
+				if(pageIndex != null && (pageIndex.length()) != 0){
+					page= Integer.valueOf(pageIndex);
+				}
+				totalCount = messageService.findMessageCount();
+				List<MessageJsonBean> list = new ArrayList<MessageJsonBean>();
+				if (user.getType()==1) {
+					totalCount = messageService.findMsingleCount(user.getId());
+					list = messageService.findMessageBySingle(page, PAGENUM, user.getId());
+				} else {
+					totalCount = messageService.findMessageCount();
+					list = messageService.findMessageByPage(page, PAGENUM);
+				}
+				for(MessageJsonBean me : list) {
+					int pid = me.getId();
+					Long status = childService.isGbook(pid, 1);
+					if (status>0){
+						me.setStatus(1);
+					} else {
+						me.setStatus(0);
+					}
+				}
+				//计算出页数并返回给前台
+				Integer totalPage = (int)( Math.ceil(totalCount / FPAGENUM) );
+				baseResp.setObject(list);
+				baseResp.setTotalCount(totalCount);
+				baseResp.setTotalPage(totalPage);
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		Long totalCount = 1L;
-		Integer page = 1;
-		if(pageIndex != null && (pageIndex.length()) != 0){
-			page= Integer.valueOf(pageIndex);
-		}
-		totalCount = messageService.findMessageCount();
-		List<MessageJsonBean> list = new ArrayList<MessageJsonBean>();
-		if (user.getType()==1) {
-			totalCount = messageService.findMsingleCount(user.getId());
-			list = messageService.findMessageBySingle(page, PAGENUM, user.getId());
-		} else {
-			totalCount = messageService.findMessageCount();
-			list = messageService.findMessageByPage(page, PAGENUM);
-		}
-		for(MessageJsonBean me : list) {
-			int pid = me.getId();
-			Long status = childService.isGbook(pid, 1);
-			if (status>0){
-				me.setStatus(1);
-			} else {
-				me.setStatus(0);
-			}
-		}
-		//计算出页数并返回给前台
-		Integer totalPage = (int)( Math.ceil(totalCount / FPAGENUM) );
-		baseResp.setObject(list);
-		baseResp.setTotalCount(totalCount);
-		baseResp.setTotalPage(totalPage);
 		Gson gson = new Gson();
 		JSONObject jsontwo = new JSONObject();
 		String baseRespToJson = gson.toJson(baseResp);
