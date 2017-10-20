@@ -75,52 +75,54 @@
 		<script src="${pageContext.request.contextPath}/js/dot.js" type="text/javascript" charset="utf-8"></script>
 		<script src="${pageContext.request.contextPath}/js/main.js" type="text/javascript" charset="utf-8"></script>
 		<script>
-		$(window).ready(function() {
-			window.localStorage.removeItem("pid");
-			window.localStorage.removeItem("pname");
- 	        //获取url中的参数
-	        function getUrlParam(name) {
-	            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-	            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
-	            if (r != null) return unescape(r[2]); return null; //返回参数值
-	        }
-			var info = getUrlParam('info');
-			if (!info){
-				$.ajax({
-					type: "post",
-					dataType: "json",
-					async: true,
-					url: "userinfo",
-					success: function(data) {
-							var str = data.message;
-							if (str) {
-								$(".loadjs").append(str);
+			$(window).ready(function() {
+				window.localStorage.removeItem("pid");
+				window.localStorage.removeItem("pname");
+				var href = "http://www.xyxdie.com/gbook";
+				var redirectUri = encodeURIComponent(href);
+				var url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx6aa1205fde028896&redirect_uri=' + redirectUri + '&response_type=code&scope=snsapi_userinfo&state=xyxdie#wechat_redirect';
+				//获取url中的参数
+				function getUrlParam(name) {
+					var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+					var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+					if (r != null) return unescape(r[2]); return null; //返回参数值
+				}
+				var code = getUrlParam('code');
+				
+				if(!code) {
+					 window.open(url, '_self');
+				}else {
+					$.ajax({
+						type: "post",
+						dataType: "json",
+						async: true,
+						url: "userinfo",
+						data: {
+							code : code
+						},	
+						success: function(data) {
+							var openid = data.object.openid;
+							var accesstoken = data.object.accesstoken;
+							localStorage.setItem("openid", openid);
+							localStorage.setItem("accesstoken", accesstoken);
+							var pageIndex = location.hash.replace('#page=', '');
+							pageIndex = pageIndex ? pageIndex : 1;
+							/*加载分页数据*/
+							if($('#list').length > 0) {
+								var data = {
+										pageIndex :	pageIndex,
+										openid: openid,
+										accesstoken: accesstoken
+								};
+								load_data(data);
 							}
-							
-					},
-					error: function(data) {
-						console.log(data)
-					}
-				});
-				} else {
-					localStorage.setItem("info", info);
-					var json = JSON.parse(info);
-					
-					var pageIndex = location.hash.replace('#page=', '');
-					pageIndex = pageIndex ? pageIndex : 1;
-					
-					/*加载分页数据*/
-					if($('#list').length > 0) {
-						var data = {
-								pageIndex :	pageIndex,
-								openid: json.openid,
-								nickname: json.nickname,
-								headimgurl: json.headimgurl
-						};
-						load_data(data);
-					}
-			}
-		});	
+						},
+						error: function(data) {
+							console.log(data)
+						}
+					});
+			    }
+		    });
 		</script>
 	</div>
 </body>
