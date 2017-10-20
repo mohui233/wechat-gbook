@@ -173,14 +173,13 @@ $(window).ready(function() {
 			$('.pages .curr').text(pageIndex);
 			$('.next').removeClass('disable');
 			
-			var info = window.localStorage.getItem("info");
-			var json = JSON.parse(info);
-			
+			var openid = window.localStorage.getItem("openid");
+			var accesstoken = window.localStorage.getItem("accesstoken");
+
 			data = {
 					pageIndex :	pageIndex,
-					openid: json.openid,
-					nickname: json.nickname,
-					headimgurl: json.headimgurl
+					openid: openid,
+					accesstoken: accesstoken					
 			};
 			
 			load_data(data);
@@ -205,14 +204,13 @@ $(window).ready(function() {
 			$('.pages .curr').text(pageIndex);
 			$('.prev').removeClass('disable');
 			
-			var info = window.localStorage.getItem("info");
-			var json = JSON.parse(info);
+			var openid = window.localStorage.getItem("openid");
+			var accesstoken = window.localStorage.getItem("accesstoken");
 
 			data = {
 					pageIndex :	pageIndex,
-					openid: json.openid,
-					nickname: json.nickname,
-					headimgurl: json.headimgurl
+					openid: openid,
+					accesstoken: accesstoken					
 			};
 			
 			load_data(data);
