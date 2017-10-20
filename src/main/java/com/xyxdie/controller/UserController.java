@@ -88,21 +88,20 @@ public class UserController {
 	 * @param model
 	 */
 	@RequestMapping("messageList")
-	public String messageList(String pageIndex, String info, HttpSession session, HttpServletRequest request, HttpServletResponse response)throws IOException, Exception {
+	public String messageList(String pageIndex, String openid, String nickname, String headimgurl, HttpSession session, HttpServletRequest request, HttpServletResponse response)throws IOException, Exception {
 		AbstractBaseResp baseResp = new AbstractBaseResp();
 		User user = new User();  
-		if (info!=null && info.length()!=0) {
-			info = new String(info.getBytes("ISO-8859-1"), "UTF-8");
-			JSONObject json = JSONObject.fromObject(info);  
-			user.setPasswd(json.getString("openid"));
-			user.setName(json.getString("nickname"));  
-			user.setImgUrl(json.getString("headimgurl")); 
-			if (user.getName().equals("项越兄弟")) {
+		if (openid!=null && openid.length()!=0) {
+			nickname = new String(nickname.getBytes("ISO-8859-1"), "UTF-8");
+			user.setPasswd(openid);
+			user.setName(nickname);  
+			user.setImgUrl(headimgurl); 
+			if (nickname.equals("项越兄弟")) {
 				user.setType(2);
 			} else {
 				user.setType(1);
 			}
-			List<User> users = userService.findUserByOpenId(user.getPasswd());
+			List<User> users = userService.findUserByOpenId(openid);
 			if (users.size()==0) {
 				userService.saveUser(user);
 			} else {
