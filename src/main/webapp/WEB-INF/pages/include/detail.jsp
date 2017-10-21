@@ -61,10 +61,9 @@
 			<script>
 				$(".goback").click(function(){
 					history.go(-1);
-					history.go(-1);
 				});				
 				var pname = window.localStorage.getItem("pname");
-				if (pname==null){
+				if (!pname){
 					pname = "用户";
 				}
 				$(".detail-page .head").prepend(

@@ -17,7 +17,7 @@
 	<div class="head">
 		<h2>留言大厅</h2>
 		<span class="des">管理员会尽快处理您的留言</span>
-		<a href="mynews"><button class="btn news-btn"><img src="${pageContext.request.contextPath}/img/comments.png"/></button></a>
+		<a href=""><button class="btn news-btn"><img src="${pageContext.request.contextPath}/img/comments.png"/></button></a>
 		<button class="btn publish-btn">发布留言</button>
 		<span class="dot"></span>
 		<span class="line"></span>
@@ -92,27 +92,23 @@
 				if(!code) {
 					 window.open(url, '_self');
 				}else {
+					var adopenid = "xxxxx";
 					$.ajax({
 						type: "post",
 						dataType: "json",
 						async: true,
 						url: "userinfo",
 						data: {
-							code : code
+							code : code,
+							adopenid: adopenid
 						},	
 						success: function(data) {
-							var openid = data.object.openid;
-							var accesstoken = data.object.accesstoken;
-							localStorage.setItem("openid", openid);
-							localStorage.setItem("accesstoken", accesstoken);
 							var pageIndex = location.hash.replace('#page=', '');
 							pageIndex = pageIndex ? pageIndex : 1;
 							/*加载分页数据*/
 							if($('#list').length > 0) {
 								var data = {
-										pageIndex :	pageIndex,
-										openid: openid,
-										accesstoken: accesstoken
+										pageIndex :	pageIndex
 								};
 								load_data(data);
 							}
