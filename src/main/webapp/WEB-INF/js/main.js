@@ -124,9 +124,11 @@ $(window).ready(function() {
 	$('.submit-btn').click(function() {
 		hideEditView();
 		var pid = window.localStorage.getItem("pid");
+		var userid = window.localStorage.getItem("userid");
 		var content = $("#textarea").val();
 		var data = {
 			pid : pid,
+			userid : userid,
 		    content: content
 		}
 		$.ajax({
@@ -174,9 +176,12 @@ $(window).ready(function() {
 
 			$('.pages .curr').text(pageIndex);
 			$('.next').removeClass('disable');
+			
+			var userid = window.localStorage.getItem("userid");
 
 			data = {
-					pageIndex :	pageIndex
+					pageIndex :	pageIndex,
+					userid : userid
 			};
 			
 			load_data(data);
@@ -201,8 +206,11 @@ $(window).ready(function() {
 			$('.pages .curr').text(pageIndex);
 			$('.prev').removeClass('disable');
 			
+			var userid = window.localStorage.getItem("userid");
+
 			data = {
-					pageIndex :	pageIndex
+					pageIndex :	pageIndex,
+					userid : userid
 			};
 			
 			load_data(data);
