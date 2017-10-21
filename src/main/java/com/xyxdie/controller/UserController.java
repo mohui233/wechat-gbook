@@ -80,11 +80,6 @@ public class UserController {
 						for (User u : list) {
 							if(!nickname.equals(u.getName())){
 								u.setName(nickname);
-								if (openid.equals(adopenid)) {
-									u.setType(2);
-								} else {
-									u.setType(1);
-								}
 								userService.updateUser(u);
 								session.setAttribute("user", user);
 							}
