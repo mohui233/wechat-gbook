@@ -58,7 +58,7 @@ public class UserController {
 	@RequestMapping("/userinfo")
 	public void index(String code, String adopenid,  HttpSession session, HttpServletRequest request, HttpServletResponse response)throws IOException, Exception {
 		AbstractBaseResp baseResp = new AbstractBaseResp();
-		User user = new  User();
+		User user = new User();
 		try {
 			String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx6aa1205fde028896&secret=17286f5eb8f40927c7936d7c63324f18&code="+code+"&grant_type=authorization_code";
 			String str = HttpClientUtils.get(url, "UTF-8");
@@ -72,23 +72,31 @@ public class UserController {
 					JSONObject jsStrq = JSONObject.fromObject(strq);
 					String nickname = jsStrq.getString("nickname");
 					String headimgurl = jsStrq.getString("headimgurl");
-					nickname = new String(nickname.getBytes("ISO-8859-1"), "UTF-8");
 					user.setPasswd(openid);
-					user.setName(nickname);  
-					user.setImgUrl(headimgurl); 
-					if (openid.equals(adopenid)) {
-						user.setType(2);
-					} else {
-						user.setType(1);
-					}
-					List<User> users = userService.findUserByOpenId(openid);
-					if (users.size()==0) {
-						userService.saveUser(user);
-					} else {
-						for (User u : users) {
-							user.setId(u.getId());
-							session.setAttribute("user", user);
+					user.setImgUrl(headimgurl);
+					user.setName(nickname);
+					List<User> list = userService.findUserByOpenId(openid);
+					if(list!=null && list.size() !=0 ){
+						for (User u : list) {
+							if(!nickname.equals(u.getName())){
+								u.setName(nickname);
+								if (openid.equals(adopenid)) {
+									u.setType(2);
+								} else {
+									u.setType(1);
+								}
+								userService.updateUser(u);
+								session.setAttribute("user", user);
+							}
 						}
+					}else {
+						if (openid.equals(adopenid)) {
+							user.setType(2);
+						} else {
+							user.setType(1);
+						}
+						userService.saveUser(user);
+						session.setAttribute("user", user);
 					}
 				}
 			}
