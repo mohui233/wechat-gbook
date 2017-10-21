@@ -73,6 +73,7 @@ $(window).ready(function() {
 				totalCount = data.totalCount;
 				totalPage = data.totalPage;
 				list = [];
+				if (totalCount) {
 				for (var i = 0; i < data.object.length; i++) {
 					var a = data.object[i];
 					var answer = "";
@@ -111,6 +112,7 @@ $(window).ready(function() {
 					$('.prev').addClass('disable');
 					$('.next').addClass('disable');
 				}
+			  }
 			},
 			error: function(data) {
 				console.log(data)
@@ -135,7 +137,7 @@ $(window).ready(function() {
 			data: data,
 			success: function(data) {
 				$.ajaxSetup ({ cache: false }); 
-				location.reload();
+				location.href("http://www.xyxdie.com/gbook");
 			},
 			error: function(data) {
 			}
@@ -172,14 +174,9 @@ $(window).ready(function() {
 
 			$('.pages .curr').text(pageIndex);
 			$('.next').removeClass('disable');
-			
-			var openid = window.localStorage.getItem("openid");
-			var accesstoken = window.localStorage.getItem("accesstoken");
 
 			data = {
-					pageIndex :	pageIndex,
-					openid: openid,
-					accesstoken: accesstoken					
+					pageIndex :	pageIndex
 			};
 			
 			load_data(data);
@@ -204,13 +201,8 @@ $(window).ready(function() {
 			$('.pages .curr').text(pageIndex);
 			$('.prev').removeClass('disable');
 			
-			var openid = window.localStorage.getItem("openid");
-			var accesstoken = window.localStorage.getItem("accesstoken");
-
 			data = {
-					pageIndex :	pageIndex,
-					openid: openid,
-					accesstoken: accesstoken					
+					pageIndex :	pageIndex
 			};
 			
 			load_data(data);
@@ -231,7 +223,7 @@ $(window).ready(function() {
 
 	//我的信息列表页
 	if($('body').hasClass('news-page')) {
-		window.open('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx905a34f609765252&redirect_uri=http://www.baidu.com&response_type=code&scope=snsapi_userinfo&state=19920813#wechat_redirect', '_self');
+		window.open('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx6aa1205fde028896&redirect_uri=http://www.xyxdie.com/gbook&response_type=code&scope=snsapi_userinfo&state=19920813#wechat_redirect', '_self');
 	}
 	
 	//我的信息详情页
