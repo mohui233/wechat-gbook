@@ -77,7 +77,6 @@
 		<script>
 			$(window).ready(function() {
 				window.localStorage.removeItem("pid");
-				window.localStorage.removeItem("pname");
 				var href = "http://www.xyxdie.com/gbook";
 				var redirectUri = encodeURIComponent(href);
 				var url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx6aa1205fde028896&redirect_uri=' + redirectUri + '&response_type=code&scope=snsapi_userinfo&state=xyxdie#wechat_redirect';
