@@ -137,7 +137,7 @@ $(window).ready(function() {
 			data: data,
 			success: function(data) {
 				$.ajaxSetup ({ cache: false }); 
-				location.href("http://www.xyxdie.com/gbook");
+				location.reload();
 			},
 			error: function(data) {
 			}
