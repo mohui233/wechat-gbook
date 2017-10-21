@@ -20,7 +20,6 @@ import net.sf.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -56,7 +55,7 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping("/userinfo")
-	public void index(String code, String adopenid,  HttpSession session, HttpServletRequest request, HttpServletResponse response)throws IOException, Exception {
+	public void index(String code, String adopenid, HttpServletRequest request, HttpServletResponse response)throws IOException, Exception {
 		AbstractBaseResp baseResp = new AbstractBaseResp();
 		User user = new User();
 		try {
@@ -84,15 +83,11 @@ public class UserController {
 					if(list!=null && list.size() !=0 ){
 						for (User u : list) {
 							user.setId(u.getId());
-							if(!nickname.equals(u.getName())){
-								user.setName(nickname);
-							}
 							userService.updateUser(user);
 						}
 					}else {
 						userService.saveUser(user);
 					}
-					session.setAttribute("user", user);
 				}
 			}
 		} catch (Exception e) {
@@ -121,7 +116,7 @@ public class UserController {
 	 * @param model
 	 */
 	@RequestMapping("messageList")
-	public String messageList(String pageIndex, HttpSession session, HttpServletRequest request, HttpServletResponse response)throws IOException, Exception {
+	public String messageList(String pageIndex, String userid, HttpServletRequest request, HttpServletResponse response)throws IOException, Exception {
 		AbstractBaseResp baseResp = new AbstractBaseResp();
 		try {
 			Long totalCount = 1L;
@@ -131,12 +126,12 @@ public class UserController {
 			}
 			totalCount = messageService.findMessageCount();
 			List<MessageJsonBean> list = new ArrayList<MessageJsonBean>();
-			//判断session
-			User user = (User) session.getAttribute("user");
-			if(user != null){
-				if (user.getType()==1) {
-					totalCount = messageService.findMsingleCount(user.getId());
-					list = messageService.findMessageBySingle(page, PAGENUM, user.getId());
+			if (userid!=null && userid.length()!=0) {
+				int id = Integer.parseInt(userid);
+				User u = userService.findById(id);
+				if (u.getType()==1) {
+					totalCount = messageService.findMsingleCount(id);
+					list = messageService.findMessageBySingle(page, PAGENUM, id);
 				} else {
 					totalCount = messageService.findMessageCount();
 					list = messageService.findMessageByPage(page, PAGENUM);
@@ -188,31 +183,29 @@ public class UserController {
 	 * @throws Exception
 	 */
 	@RequestMapping("saveMessage")
-	public void saveMessage(Integer pid, String content, HttpSession session, HttpServletRequest request, 
+	public void saveMessage(String pid, String userid, String content, HttpServletRequest request, 
 			HttpServletResponse response)throws IOException, Exception {
 		AbstractBaseResp baseResp = new AbstractBaseResp();
-		User sessionUser = (User) session.getAttribute("user");
 		int code = 0;
-		if(sessionUser != null) {
-			if(pid == null) {
-				Message message = new Message();
-				message.setUserid(sessionUser.getId());
-				if(content != null && (content.length()) != 0){
-					message.setMessage(content);
-					message.setDate(messageService.getDate());
-					message.setIp(request.getRemoteAddr());
-					code = messageService.saveMessage(message);
-				}
-			} else {
+		if (userid!=null && userid.length()!=0 && content != null && (content.length()) != 0) {
+			int id = Integer.parseInt(userid);
+			if (pid!=null && pid.length()!=0) {
 				Child child = new Child();
-				child.setPid(pid);
-				child.setUserid(sessionUser.getId());
+				child.setPid(Integer.parseInt(pid));
+				child.setUserid(id);
 				child.setMessage(content);
 				child.setDate(childService.getDate());
 				child.setIp(request.getRemoteAddr());
 				code = childService.saveChild(child);
+			} else {
+				Message message = new Message();
+				message.setUserid(id);
+				message.setMessage(content);
+				message.setDate(messageService.getDate());
+				message.setIp(request.getRemoteAddr());
+				code = messageService.saveMessage(message);
 			}
-		}
+		}	
 		baseResp.setCode(code);
 		Gson gson = new Gson();
 		JSONObject json = new JSONObject();
