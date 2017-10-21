@@ -102,12 +102,15 @@
 							adopenid: adopenid
 						},	
 						success: function(data) {
+							var userid = data.object.id;
+							window.localStorage.setItem("userid", userid)
 							var pageIndex = location.hash.replace('#page=', '');
 							pageIndex = pageIndex ? pageIndex : 1;
 							/*加载分页数据*/
 							if($('#list').length > 0) {
 								var data = {
-										pageIndex :	pageIndex
+										pageIndex :	pageIndex,
+										userid : userid
 								};
 								load_data(data);
 							}
