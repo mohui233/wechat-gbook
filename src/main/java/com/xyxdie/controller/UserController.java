@@ -75,24 +75,23 @@ public class UserController {
 					user.setPasswd(openid);
 					user.setImgUrl(headimgurl);
 					user.setName(nickname);
+					if (openid.equals(adopenid)) {
+						user.setType(2);
+					} else {
+						user.setType(1);
+					}
 					List<User> list = userService.findUserByOpenId(openid);
 					if(list!=null && list.size() !=0 ){
 						for (User u : list) {
 							if(!nickname.equals(u.getName())){
-								u.setName(nickname);
-								userService.updateUser(u);
-								session.setAttribute("user", user);
+								user.setName(nickname);
+								userService.updateUser(user);
 							}
 						}
 					}else {
-						if (openid.equals(adopenid)) {
-							user.setType(2);
-						} else {
-							user.setType(1);
-						}
 						userService.saveUser(user);
-						session.setAttribute("user", user);
 					}
+					session.setAttribute("user", user);
 				}
 			}
 		} catch (Exception e) {
