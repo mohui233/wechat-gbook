@@ -83,10 +83,11 @@ public class UserController {
 					List<User> list = userService.findUserByOpenId(openid);
 					if(list!=null && list.size() !=0 ){
 						for (User u : list) {
+							user.setId(u.getId());
 							if(!nickname.equals(u.getName())){
 								user.setName(nickname);
-								userService.updateUser(user);
 							}
+							userService.updateUser(user);
 						}
 					}else {
 						userService.saveUser(user);
