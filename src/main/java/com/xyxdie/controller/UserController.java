@@ -20,6 +20,8 @@ import net.sf.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -55,7 +57,7 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping("/userinfo")
-	public void index(String code, String adopenid, HttpServletRequest request, HttpServletResponse response)throws IOException, Exception {
+	public void index(String code, String adopenid, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws IOException, Exception {
 		AbstractBaseResp baseResp = new AbstractBaseResp();
 		User user = new User();
 		try {
@@ -88,6 +90,7 @@ public class UserController {
 					}else {
 						userService.saveUser(user);
 					}
+					request.getSession().setAttribute("user", user);
 				}
 			}
 		} catch (Exception e) {
