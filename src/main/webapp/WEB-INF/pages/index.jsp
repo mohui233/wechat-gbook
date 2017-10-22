@@ -1,6 +1,10 @@
+<%@ page language="java" pageEncoding="utf-8"%>
+<%@ page import="com.xyxdie.model.User"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
+
 <html>
 <head>
     <title>留言大厅</title>
@@ -63,7 +67,7 @@
 			<%
 				}
 				else 
-					out.print("请发布消息！");
+					out.print("");
 			%>
 		</div>
 		<span class="company">北京项越兄弟智能工程技术有限公司</span>
@@ -97,8 +101,8 @@
 					if (r != null) return unescape(r[2]); return null; //返回参数值
 				}
 				var code = getUrlParam('code');
-				var id = $('input[name=id]').val();
-				if(!code && !id) {
+				var baseid = $('input[name=id]').val();
+				if(!code && !baseid) {
 					 window.open(url, '_self');
 				}else {
 					var adopenid = "xxxxx";
@@ -113,6 +117,7 @@
 						},	
 						success: function(data) {
 							var userid = data.object.id;
+							if(userid==0){userid=baseid};
 							window.localStorage.setItem("userid", userid)
 							var pageIndex = location.hash.replace('#page=', '');
 							pageIndex = pageIndex ? pageIndex : 1;
