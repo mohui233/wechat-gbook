@@ -55,6 +55,16 @@
 			<a href="">在线娱乐</a>
 			<a href="">联系我们</a>
 			<a href="">官方活动</a>
+			<% 
+				User u = (User) request.getSession().getAttribute("user");
+				if(null != u) {
+			%>
+			<input type="hidden" name="id" value="<%=u.getId()%>"/>
+			<%
+				}
+				else 
+					out.print("请发布消息！");
+			%>
 		</div>
 		<span class="company">北京项越兄弟智能工程技术有限公司</span>
 	</div>
@@ -87,8 +97,8 @@
 					if (r != null) return unescape(r[2]); return null; //返回参数值
 				}
 				var code = getUrlParam('code');
-				
-				if(!code) {
+				var id = $('input[name=id]').val();
+				if(!code && !id) {
 					 window.open(url, '_self');
 				}else {
 					var adopenid = "xxxxx";
