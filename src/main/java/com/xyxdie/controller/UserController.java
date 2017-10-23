@@ -17,10 +17,9 @@ import com.xyxdie.vo.ChildJsonBean;
 import com.xyxdie.vo.MessageJsonBean;
 
 import net.sf.json.JSONObject;
-
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -48,70 +47,49 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping("/")
-	public String index(){
-		return "index";
-	}
-
-	/**
-	 * 微信端用户信息
-	 * @return
-	 */
-	@RequestMapping("/userinfo")
-	public void index(String code, String adopenid, HttpServletRequest request, HttpSession session, HttpServletResponse response)throws IOException, Exception {
-		AbstractBaseResp baseResp = new AbstractBaseResp();
-		User user = new User();
-		try {
-			String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx6aa1205fde028896&secret=17286f5eb8f40927c7936d7c63324f18&code="+code+"&grant_type=authorization_code";
-			String str = HttpClientUtils.get(url, "UTF-8");
-			if(str != null && str.length()!=0){
-				JSONObject jsStr = JSONObject.fromObject(str);
-				String accesstoken = jsStr.getString("access_token");
-				String openid = jsStr.getString("openid");
-				String urlq = "https://api.weixin.qq.com/sns/userinfo?access_token="+accesstoken+"&openid="+openid+"&lang=zh_CN";
-				String strq = HttpClientUtils.get(urlq, "UTF-8");
-				if(strq != null && strq.length()!=0){
-					JSONObject jsStrq = JSONObject.fromObject(strq);
-					String nickname = jsStrq.getString("nickname");
-					String headimgurl = jsStrq.getString("headimgurl");
-					user.setPasswd(openid);
-					user.setImgUrl(headimgurl);
-					user.setName(nickname);
-					if (openid.equals(adopenid)) {
-						user.setType(2);
-					} else {
-						user.setType(1);
-					}
-					List<User> list = userService.findUserByOpenId(openid);
-					if(list!=null && list.size() !=0 ){
-						for (User u : list) {
-							user.setId(u.getId());
-							userService.updateUser(user);
-						}
-					}else {
-						userService.saveUser(user);
-					}
-					request.getSession().setAttribute("user", user);
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		baseResp.setObject(user);
-		Gson gson = new Gson();
-		JSONObject json = new JSONObject();
-		String baseRespToJson = gson.toJson(baseResp);
-		/*发送到前台*/
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
-		PrintWriter writer;
-		try {
-			json.put("baseResp", baseRespToJson);
-			writer = response.getWriter();
-			writer.print(baseRespToJson);
-			writer.flush();
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+		// 用户同意授权后，能获取到code	`
+		String code = request.getParameter("code");
+		User user = new User();
+		// 用户同意授权
+		if ( code !=null && code.length()!=0) {			
+			try {
+				String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx6aa1205fde028896&secret=17286f5eb8f40927c7936d7c63324f18&code="+code+"&grant_type=authorization_code";
+				String str = HttpClientUtils.get(url, "UTF-8");
+				if(str != null && str.length()!=0){
+					JSONObject jsStr = JSONObject.fromObject(str);
+					String accesstoken = jsStr.getString("access_token");
+					String openid = jsStr.getString("openid");
+					String urlq = "https://api.weixin.qq.com/sns/userinfo?access_token="+accesstoken+"&openid="+openid+"&lang=zh_CN";
+					String strq = HttpClientUtils.get(urlq, "UTF-8");
+					if(strq != null && strq.length()!=0){
+						JSONObject jsStrq = JSONObject.fromObject(strq);
+						String nickname = jsStrq.getString("nickname");
+						String headimgurl = jsStrq.getString("headimgurl");
+						user.setPasswd(openid);
+						user.setImgUrl(headimgurl);
+						user.setName(nickname);
+						List<User> list = userService.findUserByOpenId(openid);
+						if(list!=null && list.size() !=0 ){
+							for (User u : list) {
+								user.setId(u.getId());
+								userService.updateUser(user);
+							}
+						}else {
+							userService.saveUser(user);
+						}
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			//设置要传递的参数
+			request.setAttribute("user", user);
 		}
+		// 跳转到index.jsp
+		request.getRequestDispatcher("/WEB-INF/pages/index.jsp").forward(request, response);
 	}
 
 	/**
