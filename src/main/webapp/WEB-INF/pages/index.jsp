@@ -59,6 +59,16 @@
 			<a href="">在线娱乐</a>
 			<a href="">联系我们</a>
 			<a href="">官方活动</a>
+			<% 
+				User user = (User)request.getAttribute("user"); 
+				if(null != user) {
+			%>
+			<input type="hidden" name="userid" value="<%=user.getId()%>"/>
+			<%
+				}
+				else 
+					out.print("用户不同意授权,未获取到用户信息！");
+			%>
 		</div>
 		<span class="company">北京项越兄弟智能工程技术有限公司</span>
 	</div>
@@ -77,55 +87,12 @@
 	<div class="loadjs">
 		<script src="${pageContext.request.contextPath}/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="${pageContext.request.contextPath}/js/dot.js" type="text/javascript" charset="utf-8"></script>
-		<script src="${pageContext.request.contextPath}/js/main.js" type="text/javascript" charset="utf-8"></script>
-		<script>
-			$(window).ready(function() {
+		<script type="text/javascript">
 				window.localStorage.removeItem("pid");
-				var href = "http://www.xyxdie.com/gbook";
-				var redirectUri = encodeURIComponent(href);
-				var url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx6aa1205fde028896&redirect_uri=' + redirectUri + '&response_type=code&scope=snsapi_userinfo&state=xyxdie#wechat_redirect';
-				//获取url中的参数
-				function getUrlParam(name) {
-					var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-					var r = window.location.search.substr(1).match(reg);  //匹配目标参数
-					if (r != null) return unescape(r[2]); return null; //返回参数值
-				}
-				var code = getUrlParam('code');
-				
-				if(!code) {
-					 window.open(url, '_self');
-				}else {
-					var adopenid = "xxxxx";
-					$.ajax({
-						type: "post",
-						dataType: "json",
-						async: true,
-						url: "userinfo",
-						data: {
-							code : code,
-							adopenid: adopenid
-						},	
-						success: function(data) {
-							var userid = data.object.id;				
-							window.localStorage.setItem("userid", userid)
-							var pageIndex = location.hash.replace('#page=', '');
-							pageIndex = pageIndex ? pageIndex : 1;
-							/*加载分页数据*/
-							if($('#list').length > 0) {
-								var data = {
-										pageIndex :	pageIndex,
-										userid : userid
-								};
-								load_data(data);
-							}
-						},
-						error: function(data) {
-							console.log(data)
-						}
-					});
-			    }
-		    });
+				var userid = $('input[name=userid]').val();
+				window.localStorage.setItem("userid", userid);
 		</script>
+		<script src="${pageContext.request.contextPath}/js/main.js" type="text/javascript" charset="utf-8"></script>
 	</div>
 </body>
 </html>
