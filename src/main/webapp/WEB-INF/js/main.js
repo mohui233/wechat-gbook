@@ -158,6 +158,16 @@ $(window).ready(function() {
 		$('.next').addClass('disable');
 	}
 
+	/*加载分页数据*/
+	if($('#list').length > 0) {
+		var userid = window.localStorage.getItem("userid");
+		var data = {
+				pageIndex :	pageIndex,
+				userid : userid
+		};
+		load_data(data);
+	}
+	
 	$('.pages .curr').text(pageIndex);
 	$('.pages .total-page').text(totalPage);
 	
