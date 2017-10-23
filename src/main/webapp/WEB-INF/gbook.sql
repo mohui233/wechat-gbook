@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50173
 File Encoding         : 65001
 
-Date: 2017-10-20 02:29:46
+Date: 2017-10-23 15:12:14
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -27,30 +27,16 @@ CREATE TABLE `child` (
   `ip` varchar(20) DEFAULT NULL,
   `pid` int(11) DEFAULT NULL COMMENT '父内容id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of child
 -- ----------------------------
-INSERT INTO `child` VALUES ('3', '1', '啊啊', '2017-10-15 17:39:33', '192.168.1.4', '52');
-INSERT INTO `child` VALUES ('4', '1', '啊啊啊啊啊', '2017-10-15 17:41:25', '192.168.1.4', '51');
-INSERT INTO `child` VALUES ('5', '1', '啊啊啊', '2017-10-15 18:34:37', '192.168.1.4', '52');
 INSERT INTO `child` VALUES ('6', '2', '啊啊啊啊啊啊啊啊啊', '2017-10-15 19:07:17', '192.168.1.4', '52');
 INSERT INTO `child` VALUES ('7', '2', '啊啊', '2017-10-15 19:23:30', '192.168.1.4', '51');
 INSERT INTO `child` VALUES ('8', '2', '啊啊啊啊啊', '2017-10-15 19:23:53', '192.168.1.4', '50');
-INSERT INTO `child` VALUES ('9', '1', '啊啊', '2017-10-15 19:25:13', '192.168.1.4', '50');
-INSERT INTO `child` VALUES ('10', '2', '啊啊啊啊', '2017-10-15 20:56:45', '192.168.1.4', '52');
-INSERT INTO `child` VALUES ('12', '1', '啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊', '2017-10-15 21:30:33', '192.168.1.4', '48');
-INSERT INTO `child` VALUES ('15', '1', '你好有什么问题？', '2017-10-15 21:49:05', '192.168.1.4', '52');
-INSERT INTO `child` VALUES ('32', '2', '老铁得劲吗？', '2017-10-16 16:45:03', '192.168.1.4', '50');
-INSERT INTO `child` VALUES ('33', '1', '老得劲了', '2017-10-16 16:45:17', '192.168.1.4', '50');
-INSERT INTO `child` VALUES ('38', '8', '双击666', '2017-10-17 10:11:28', '192.168.1.4', '52');
-INSERT INTO `child` VALUES ('39', '8', '啊啊啊', '2017-10-17 10:11:41', '192.168.1.4', '52');
-INSERT INTO `child` VALUES ('40', '1', '没毛病', '2017-10-17 10:11:58', '192.168.1.4', '52');
-INSERT INTO `child` VALUES ('42', '1', '啊', '2017-10-17 10:50:16', '192.168.1.4', '52');
-INSERT INTO `child` VALUES ('43', '2', '啊啊啊啊啊啊啊', '2017-10-17 10:51:02', '192.168.1.4', '52');
-INSERT INTO `child` VALUES ('45', '25', '嘻嘻嘻', '2017-10-20 01:43:03', '192.168.1.2', '288');
-INSERT INTO `child` VALUES ('46', '25', '啊', '2017-10-20 01:46:06', '192.168.1.2', '288');
+INSERT INTO `child` VALUES ('91', '43', '你疯了？', '2017-10-23 15:09:25', '127.0.0.1', '338');
+INSERT INTO `child` VALUES ('92', '43', '(๑•॒̀ ູ॒•́๑)', '2017-10-23 15:10:30', '127.0.0.1', '52');
 
 -- ----------------------------
 -- Table structure for message
@@ -66,12 +52,11 @@ CREATE TABLE `message` (
   PRIMARY KEY (`id`),
   KEY `userid` (`userid`),
   CONSTRAINT `message_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=290 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=339 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of message
 -- ----------------------------
-INSERT INTO `message` VALUES ('1', '1', '故人西辞黄鹤楼，烟花三月下扬州。', '2016-10-12 12:33:06', '0:0:0:0:0:0:0:1', '0');
 INSERT INTO `message` VALUES ('2', '9', '孤帆远影碧空尽，唯见长江天际流。', '2016-10-12 12:34:40', '0:0:0:0:0:0:0:1', '0');
 INSERT INTO `message` VALUES ('3', '2', '床前明月光，疑是地上霜。', '2016-10-12 12:33:27', '0:0:0:0:0:0:0:1', '0');
 INSERT INTO `message` VALUES ('4', '8', '行路难！行路难！多歧路，今安在？长风破浪会有时，直挂云帆济沧海。', '2016-10-12 12:34:10', '0:0:0:0:0:0:0:1', '0');
@@ -84,12 +69,8 @@ INSERT INTO `message` VALUES ('47', '10', '举杯邀明月，对影成三人。'
 INSERT INTO `message` VALUES ('48', '10', '举头望明月，低头思故乡。', '2016-10-12 12:41:43', '0:0:0:0:0:0:0:1', '0');
 INSERT INTO `message` VALUES ('49', '10', '抽刀断水水更流，举杯消愁愁更愁。', '2016-10-12 12:41:58', '0:0:0:0:0:0:0:1', '0');
 INSERT INTO `message` VALUES ('50', '2', '两岸青山相对出，孤帆一片日边来。', '2016-10-12 12:42:18', '0:0:0:0:0:0:0:1', '0');
-INSERT INTO `message` VALUES ('51', '1', '相看两不厌，只有敬亭山。', '2016-10-12 12:42:36', '0:0:0:0:0:0:0:1', '0');
 INSERT INTO `message` VALUES ('52', '8', '我寄愁心与明月，随风直到夜郎西。', '2016-10-12 12:42:57', '0:0:0:0:0:0:0:1', '0');
-INSERT INTO `message` VALUES ('286', '25', '啊啊', '2017-10-20 00:55:40', '192.168.1.2', '0');
-INSERT INTO `message` VALUES ('287', '25', '小心', '2017-10-20 01:03:49', '192.168.1.2', '0');
-INSERT INTO `message` VALUES ('288', '25', '啊啊啊', '2017-10-20 01:42:41', '192.168.1.2', '0');
-INSERT INTO `message` VALUES ('289', '25', '哈哈哈哈哈哈', '2017-10-20 02:07:28', '192.168.1.2', '0');
+INSERT INTO `message` VALUES ('338', '43', '啊啊啊', '2017-10-23 14:59:15', '127.0.0.1', '0');
 
 -- ----------------------------
 -- Table structure for user
@@ -97,20 +78,18 @@ INSERT INTO `message` VALUES ('289', '25', '哈哈哈哈哈哈', '2017-10-20 02:
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` int(11) DEFAULT NULL,
+  `type` int(11) DEFAULT '1' COMMENT '管理员2，普通默认1',
   `name` char(200) DEFAULT NULL,
   `passwd` char(200) DEFAULT NULL,
   `imgurl` char(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', '2', '项越兄弟', '12345678', 'upload/nopic.jpg');
 INSERT INTO `user` VALUES ('2', '1', '林声声', '12345678', 'upload/nopic.jpg');
 INSERT INTO `user` VALUES ('8', '1', '是以彤啊', '12345678', 'upload/nopic.jpg');
 INSERT INTO `user` VALUES ('9', '1', '浑沌七日死', '12345678', 'upload/nopic.jpg');
 INSERT INTO `user` VALUES ('10', '1', '喵了个咪', '12345678', 'upload/nopic.jpg');
-INSERT INTO `user` VALUES ('11', '1', '是朕', '12345678', 'upload/nopic.jpg');
-INSERT INTO `user` VALUES ('25', '1', '默会', 'o6j4w0wSwgMknXSBJ6-atD6ihxho', 'http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLZ1diafCBQt2zFBvj4EfmsFEDwEwHzbBAyWSrH7wnKlz1tnr3h2Hh1EdMegqF2SOLB07icysQFqLqA/0');
+INSERT INTO `user` VALUES ('43', '2', '默会', 'o6j4w0wSwgMknXSBJ6-atD6ihxho', 'http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLZ1diafCBQt2zFBvj4EfmsFEDwEwHzbBAyWSrH7wnKlz1tnr3h2Hh1EdMegqF2SOLB07icysQFqLqA/0');
